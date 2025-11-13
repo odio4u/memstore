@@ -3,8 +3,8 @@ package maps
 import (
 	"context"
 
-	memstore "github.com/dipghoshraj/ingress-tunnel/registry/pkg/memstore"
-	mapper "github.com/dipghoshraj/ingress-tunnel/registry/proto"
+	memstore "github.com/Purple-House/memstore/registry/pkg/memstore"
+	mapper "github.com/Purple-House/memstore/registry/proto"
 	"github.com/google/uuid"
 )
 

@@ -1,8 +1,8 @@
 package maps
 
 import (
-	memstore "github.com/dipghoshraj/ingress-tunnel/registry/pkg/memstore"
-	mapper "github.com/dipghoshraj/ingress-tunnel/registry/proto"
+	memstore "github.com/Purple-House/memstore/registry/pkg/memstore"
+	mapper "github.com/Purple-House/memstore/registry/proto"
 )
 
 type RPCMap struct {
