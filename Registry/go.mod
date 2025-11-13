@@ -1,4 +1,4 @@
-module github.com/dipghoshraj/ingress-tunnel/registry
+module github.com/Purple-House/memstore/Registry
 
 go 1.23.0
 
