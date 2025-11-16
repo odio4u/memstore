@@ -55,3 +55,23 @@ Gateway Register message
 }
 
 ```
+
+
+```bash
+WAL reacord encodign format
+
++-------------+
+|  MAGIC (2)  |   = 0xCAFE
++-------------+
+| VERSION (1) |
++-------------+
+| OP CODE (1) |
++-------------+
+| LENGTH (4)  |  protobuf payload length
++-------------+
+| PAYLOAD     |  protobuf WalRecord
++-------------+
+| CRC32 (4)   |
++-------------+
+
+```
