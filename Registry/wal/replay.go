@@ -76,10 +76,7 @@ func ApplyRecord(store *memstore.MemStore, rec *walpb.WalRecord) error {
 
 	case walpb.Operation_OP_PUT_GATEWAY:
 		region := rec.Gateway.Region
-		data := store.RegionExist(region)
-
-		data.Mu.Lock()
-		data.Gateways[rec.Gateway.GatewayDomain] = &memstore.GatewayData{
+		gatewayData := &memstore.GatewayData{
 			GatewayID:     uuid.NewString(),
 			GatewayIP:     rec.Gateway.GatewayIp,
 			GatewayDomain: rec.Gateway.GatewayDomain,
@@ -90,21 +87,27 @@ func ApplyRecord(store *memstore.MemStore, rec *walpb.WalRecord) error {
 				Bandwidth: rec.Gateway.Capacity.Bandwidth,
 			},
 		}
-		data.Mu.Unlock()
+
+		_, err := store.AddGateway(region, gatewayData)
+		if err != nil {
+			return err
+		}
 		return nil
 
 	case walpb.Operation_OP_PUT_AGENT:
 		region := rec.Agent.Region
-		data := store.RegionExist(region)
+		agentData := &memstore.AgentData{
+			AgentID:     uuid.NewString(),
+			AgentDomain: rec.Agent.AgentDomain,
 
-		data.Mu.Lock()
-		data.Agents[rec.Agent.AgentDomain] = &memstore.AgentData{
-			AgentID:       uuid.NewString(),
-			AgentDomain:   rec.Agent.AgentDomain,
-			GatewayID:     rec.Agent.GatewayId,
 			GatewayDomain: rec.Agent.Domain,
+			GatewayID:     rec.Agent.GatewayId,
 		}
-		data.Mu.Unlock()
+
+		_, _, err := store.AddAgent(region, agentData)
+		if err != nil {
+			return err
+		}
 		return nil
 	}
 

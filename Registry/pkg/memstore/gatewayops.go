@@ -1,6 +1,10 @@
 package memstore
 
-import "github.com/google/btree"
+import (
+	"fmt"
+
+	"github.com/google/btree"
+)
 
 func (mem *MemStore) AddGateway(region string, gateway *GatewayData) (GatewayData, error) {
 	data := mem.RegionExist(region)
@@ -25,6 +29,7 @@ func (mem *MemStore) AddGateway(region string, gateway *GatewayData) (GatewayDat
 		ID:   gateway.GatewayDomain,
 	})
 
+	fmt.Printf("Added gateway %s in region %s\n", gateway.GatewayDomain, region)
 	return *gateway, nil
 }
 

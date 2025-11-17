@@ -37,6 +37,7 @@ func (rpc *RPCMap) RegisterGateway(ctx context.Context, req *mapper.GatewayPutRe
 
 		Op: walpb.Operation_OP_PUT_GATEWAY,
 		Gateway: &walpb.GatewayPutRequest{
+			Region:        region,
 			GatewayDomain: gatewayData.GatewayDomain,
 			GatewayIp:     gatewayData.GatewayIP,
 			GatewayId:     gatewayData.GatewayID,
