@@ -36,6 +36,7 @@ message GatewayPutRequest {
     string gateway_domain = 3;
     int32 gateway_port = 4;
     Capacity capacity = 5;
+    string verifiable_cred_hash = 6;
 }
 
 message Capacity {
@@ -57,6 +58,7 @@ message AgentConnectionRequest {
     string gateway_id = 2;
     string region = 3;
     string agent_domain = 4;
+    string verifiable_cred_hash = 6;
 }
 
 message AgentResponse {
@@ -80,4 +82,11 @@ message MultipleGateways {
 message GatewayProxy {
     string agent_domain = 1;
     string region = 2;
+    string proxy_id = 3;
+}
+
+message ProxyConnectionRequest {
+    string proxy_id = 1;
+    string region = 2;
+    string verifiable_cred_hash = 3;
 }
