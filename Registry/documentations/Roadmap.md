@@ -35,7 +35,7 @@
 * Fine-grained ACLs.  
 * Integration with AgniStack control plane.
 
-
+* buiuld the identity module and this module will ensure end to end encryption and identtity
 
 Gateway Register message 
 
