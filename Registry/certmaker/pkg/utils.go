@@ -2,9 +2,10 @@ package pkg
 
 import (
 	"bufio"
+	"crypto/ed25519"
 	"crypto/rand"
-	"crypto/rsa"
 	"crypto/sha256"
+	"crypto/x509"
 	"encoding/hex"
 	"encoding/pem"
 	"fmt"
@@ -15,8 +16,18 @@ import (
 
 var OverwriteAll bool
 
-func newKey() (*rsa.PrivateKey, error) {
-	return rsa.GenerateKey(rand.Reader, 2048)
+func generateEd25519Key() (ed25519.PrivateKey, []byte) {
+	_, priv, err := ed25519.GenerateKey(rand.Reader)
+	if err != nil {
+		log.Fatal("failed to generate Ed25519 key:", err)
+	}
+
+	der, err := x509.MarshalPKCS8PrivateKey(priv)
+	if err != nil {
+		log.Fatal("failed to marshal Ed25519 private key:", err)
+	}
+
+	return priv, der
 }
 
 func Must(err error) {
@@ -32,6 +43,11 @@ func randomSerial() (*big.Int, error) {
 
 func fingerprintSHA256(der []byte) string {
 	sum := sha256.Sum256(der)
+	return hex.EncodeToString(sum[:])
+}
+
+func fingerprint(data []byte) string {
+	sum := sha256.Sum256(data)
 	return hex.EncodeToString(sum[:])
 }
 

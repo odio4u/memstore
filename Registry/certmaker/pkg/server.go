@@ -1,38 +1,18 @@
 package pkg
 
 import (
+	"crypto/ed25519"
 	"crypto/rand"
-	"crypto/rsa"
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"errors"
-	"fmt"
 	"log"
 	"net"
 	"strings"
 	"time"
 )
 
-func GenerateServerCert(
-	ca *x509.Certificate,
-	caKey *rsa.PrivateKey,
-	serverName string,
-	ipList []string,
-	dnsList []string,
-) ([]byte, error) {
-
-	log.Println("Generating server certificate...")
-
-	serial, err := randomSerial()
-	if err != nil {
-		return nil, err
-	}
-
-	serverKey, err := newKey()
-	if err != nil {
-		return nil, err
-	}
-
+func GenerateSelfSignedServer(commonName string, ipList, dnsList []string) ([]byte, error) {
 	var ips []net.IP
 	for _, raw := range ipList {
 		raw = strings.TrimSpace(raw)
@@ -41,21 +21,25 @@ func GenerateServerCert(
 		}
 		ip := net.ParseIP(raw)
 		if ip == nil {
-			return nil, fmt.Errorf("invalid server IP: %q", raw)
+			return nil, errors.New("invalid IP: " + raw)
 		}
 		ips = append(ips, ip)
 	}
 
 	if len(ips) == 0 && len(dnsList) == 0 {
-		return nil, errors.New("at least one IP or DNS must be provided")
+		return nil, errors.New("server certificate requires at least one IP or DNS SAN")
 	}
 
-	server := &x509.Certificate{
+	priv, privBytes := generateEd25519Key()
+
+	serial, _ := randomSerial()
+
+	certTmpl := &x509.Certificate{
 		SerialNumber: serial,
 		Subject: pkix.Name{
-			CommonName:   serverName,
-			Organization: []string{"MyOrg"},
+			CommonName: commonName,
 		},
+
 		NotBefore: time.Now().Add(-1 * time.Hour),
 		NotAfter:  time.Now().AddDate(5, 0, 0),
 
@@ -65,17 +49,18 @@ func GenerateServerCert(
 		IPAddresses: ips,
 		DNSNames:    dnsList,
 	}
+	pub := priv.Public().(ed25519.PublicKey)
 
-	der, err := x509.CreateCertificate(rand.Reader, server, ca, &serverKey.PublicKey, caKey)
+	// Self-signed: certificate template = parent
+	der, err := x509.CreateCertificate(rand.Reader, certTmpl, certTmpl, pub, priv)
 	if err != nil {
 		return nil, err
 	}
 
 	Must(writePem("server.pem", "CERTIFICATE", der))
-	Must(writePem("server-key.pem", "RSA PRIVATE KEY", x509.MarshalPKCS1PrivateKey(serverKey)))
+	Must(writePem("server-key.pem", "PRIVATE KEY", privBytes))
 
-	log.Println("✔ Server certificate generated.")
-	log.Printf("Server SHA-256 fingerprint: %s\n", fingerprintSHA256(der))
+	log.Printf("Server Private Key Fingerprint: %s", fingerprint(privBytes))
 
 	return der, nil
 }
