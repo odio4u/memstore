@@ -19,7 +19,7 @@ func newKey() (*rsa.PrivateKey, error) {
 	return rsa.GenerateKey(rand.Reader, 2048)
 }
 
-func must(err error) {
+func Must(err error) {
 	if err != nil {
 		log.Fatal(err)
 	}

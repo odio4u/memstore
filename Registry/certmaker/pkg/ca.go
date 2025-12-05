@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func generateCA(caName string) (*x509.Certificate, *rsa.PrivateKey, []byte, error) {
+func GenerateCA(caName string) (*x509.Certificate, *rsa.PrivateKey, []byte, error) {
 	log.Println("Generating CA certificate...")
 
 	serial, err := randomSerial()
@@ -41,8 +41,8 @@ func generateCA(caName string) (*x509.Certificate, *rsa.PrivateKey, []byte, erro
 		return nil, nil, nil, err
 	}
 
-	must(writePem("ca.pem", "CERTIFICATE", der))
-	must(writePem("ca-key.pem", "RSA PRIVATE KEY", x509.MarshalPKCS1PrivateKey(caKey)))
+	Must(writePem("ca.pem", "CERTIFICATE", der))
+	Must(writePem("ca-key.pem", "RSA PRIVATE KEY", x509.MarshalPKCS1PrivateKey(caKey)))
 
 	log.Println("✔ CA certificate generated.")
 	log.Printf("CA SHA-256 fingerprint: %s\n", fingerprintSHA256(der))

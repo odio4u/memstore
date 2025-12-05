@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func generateClientCert(ca *x509.Certificate, caKey *rsa.PrivateKey) error {
+func GenerateClientCert(ca *x509.Certificate, caKey *rsa.PrivateKey) error {
 	log.Println("Generating client certificate...")
 
 	serial, err := randomSerial()
@@ -40,8 +40,8 @@ func generateClientCert(ca *x509.Certificate, caKey *rsa.PrivateKey) error {
 		return err
 	}
 
-	must(writePem("client.pem", "CERTIFICATE", der))
-	must(writePem("client-key.pem", "RSA PRIVATE KEY", x509.MarshalPKCS1PrivateKey(key)))
+	Must(writePem("client.pem", "CERTIFICATE", der))
+	Must(writePem("client-key.pem", "RSA PRIVATE KEY", x509.MarshalPKCS1PrivateKey(key)))
 
 	log.Println("✔ Client certificate generated.")
 	log.Printf("Client SHA-256 fingerprint: %s\n", fingerprintSHA256(der))

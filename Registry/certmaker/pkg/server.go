@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-func generateServerCert(
+func GenerateServerCert(
 	ca *x509.Certificate,
 	caKey *rsa.PrivateKey,
 	serverName string,
@@ -71,8 +71,8 @@ func generateServerCert(
 		return nil, err
 	}
 
-	must(writePem("server.pem", "CERTIFICATE", der))
-	must(writePem("server-key.pem", "RSA PRIVATE KEY", x509.MarshalPKCS1PrivateKey(serverKey)))
+	Must(writePem("server.pem", "CERTIFICATE", der))
+	Must(writePem("server-key.pem", "RSA PRIVATE KEY", x509.MarshalPKCS1PrivateKey(serverKey)))
 
 	log.Println("✔ Server certificate generated.")
 	log.Printf("Server SHA-256 fingerprint: %s\n", fingerprintSHA256(der))
