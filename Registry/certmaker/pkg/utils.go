@@ -12,6 +12,7 @@ import (
 	"log"
 	"math/big"
 	"os"
+	"strings"
 )
 
 var OverwriteAll bool
@@ -41,11 +42,6 @@ func randomSerial() (*big.Int, error) {
 	return rand.Int(rand.Reader, limit)
 }
 
-func fingerprintSHA256(der []byte) string {
-	sum := sha256.Sum256(der)
-	return hex.EncodeToString(sum[:])
-}
-
 func fingerprint(data []byte) string {
 	sum := sha256.Sum256(data)
 	return hex.EncodeToString(sum[:])
@@ -58,7 +54,8 @@ func promptOverwrite(name string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	return input == "y\n" || input == "Y\n", nil
+	input = strings.ToLower(strings.TrimSpace(input))
+	return input == "y", nil
 }
 
 func writePem(filename string, blockType string, bytes []byte) error {
