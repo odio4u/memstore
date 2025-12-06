@@ -1,7 +1,11 @@
 package main
 
 import (
+	"crypto/sha256"
 	"crypto/tls"
+	"crypto/x509"
+	"encoding/hex"
+	"encoding/pem"
 	"fmt"
 	"log"
 	"net"
@@ -36,10 +40,34 @@ func gracefulShutdown(server *grpc.Server) {
 
 }
 
+func certFingurePrint() error {
+	permfile := "certs/server.pem" // replace with your file path
+	certPEM, err := os.ReadFile(permfile)
+	if err != nil {
+		return fmt.Errorf("failed to read certificate file: %v", err)
+	}
+
+	block, _ := pem.Decode(certPEM)
+
+	if block == nil || block.Type != "CERTIFICATE" {
+		return fmt.Errorf("failed to decode PEM block containing certificate")
+	}
+
+	cert, err := x509.ParseCertificate(block.Bytes)
+	if err != nil {
+		return err
+	}
+
+	sum := sha256.Sum256(cert.Raw)
+	fingerprint := hex.EncodeToString(sum[:])
+	log.Printf("Client CERT fingerprint (SHA256): %s", fingerprint)
+	return nil
+}
+
 func main() {
 	fmt.Println("Registry Service for Ingress Tunnel")
 
-	cert, err := tls.LoadX509KeyPair("certmaker/server.pem", "certmaker/server-key.pem")
+	cert, err := tls.LoadX509KeyPair("certs/server.pem", "certs/server-key.pem")
 	if err != nil {
 		log.Fatalf("failed to load server certificate: %v", err)
 	}
@@ -62,6 +90,11 @@ func main() {
 			tls.CurveP256,
 		},
 		Renegotiation: tls.RenegotiateNever,
+	}
+
+	err = certFingurePrint()
+	if err != nil {
+		log.Fatalf("Failed to print certificate fingerprint: %v", err)
 	}
 
 	port := os.Getenv("PORT")
