@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"fmt"
 	"log"
 	"net"
@@ -18,6 +19,7 @@ import (
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
 )
 
@@ -37,7 +39,38 @@ func gracefulShutdown(server *grpc.Server) {
 func main() {
 	fmt.Println("Registry Service for Ingress Tunnel")
 
-	lis, err := net.Listen("tcp", ":50051")
+	cert, err := tls.LoadX509KeyPair("certmaker/server.pem", "certmaker/server-key.pem")
+	if err != nil {
+		log.Fatalf("failed to load server certificate: %v", err)
+	}
+
+	servertLs := &tls.Config{
+		Certificates: []tls.Certificate{cert},
+		MinVersion:   tls.VersionTLS13,
+		MaxVersion:   tls.VersionTLS13,
+
+		CipherSuites: []uint16{
+			tls.TLS_AES_128_GCM_SHA256,
+			tls.TLS_AES_256_GCM_SHA384,
+		},
+
+		SessionTicketsDisabled:   true,
+		PreferServerCipherSuites: true,
+
+		CurvePreferences: []tls.CurveID{
+			tls.X25519,
+			tls.CurveP256,
+		},
+		Renegotiation: tls.RenegotiateNever,
+	}
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "50051"
+	}
+	port = fmt.Sprintf(":%s", port)
+
+	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -57,6 +90,7 @@ func main() {
 	defer waler.Close()
 
 	s := grpc.NewServer(
+		grpc.Creds(credentials.NewTLS(servertLs)),
 		grpc.UnaryInterceptor(grpc_recovery.UnaryServerInterceptor(recoveryOpts...)),
 		grpc.StreamInterceptor(grpc_recovery.StreamServerInterceptor(recoveryOpts...)),
 	)
