@@ -22,7 +22,7 @@ WORKDIR /app
 COPY --from=builder /app/bin/app .
 
 # Expose any port your app uses
-EXPOSE 8080
+EXPOSE 50051
 
 # Run the binary
 CMD ["/app/app"]
