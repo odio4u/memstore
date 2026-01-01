@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/Purple-House/memstore/certengine"
-	"github.com/Purple-House/memstore/certengine/pkg"
+	"github.com/Purple-House/mem-sdk/certengine"
+	"github.com/Purple-House/mem-sdk/certengine/pkg"
 )
 
 func main() {
@@ -22,7 +22,7 @@ func main() {
 	if cfg.WithClient {
 		pkg.Must(pkg.GenerateSelfSignedAgent(cfg.ServerName, cfg.ServerDNS))
 	} else {
-		_, err := pkg.GenerateSelfSignedPublicFacing(cfg.ServerName, cfg.ServerIPs, cfg.ServerDNS)
+		_, err := pkg.GenerateSelfSignedGPR(cfg.ServerName, cfg.ServerIPs, cfg.ServerDNS)
 		pkg.Must(err)
 	}
 
