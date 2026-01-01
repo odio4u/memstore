@@ -20,9 +20,9 @@ func main() {
 
 	// client cert
 	if cfg.WithClient {
-		pkg.Must(pkg.GenerateSelfSignedClient(cfg.ServerName, cfg.ServerDNS))
+		pkg.Must(pkg.GenerateSelfSignedAgent(cfg.ServerName, cfg.ServerDNS))
 	} else {
-		_, err := pkg.GenerateSelfSignedServer(cfg.ServerName, cfg.ServerIPs, cfg.ServerDNS)
+		_, err := pkg.GenerateSelfSignedPublicFacing(cfg.ServerName, cfg.ServerIPs, cfg.ServerDNS)
 		pkg.Must(err)
 	}
 

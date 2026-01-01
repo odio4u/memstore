@@ -3,15 +3,15 @@ module github.com/Purple-House/memstore/registry
 go 1.25.5
 
 require (
+	github.com/Purple-House/memstore/certengine v0.0.0-20260101193254-28fa3f30176e
 	github.com/google/btree v1.1.3
 	github.com/google/uuid v1.6.0
+	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	google.golang.org/grpc v1.76.0
 	google.golang.org/protobuf v1.36.10
 )
 
 require (
-	github.com/Purple-House/memstore/certengine v0.0.0-20260101175413-397baa5a2f63 // indirect
-	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
 	golang.org/x/net v0.42.0 // indirect
 	golang.org/x/sys v0.34.0 // indirect
 	golang.org/x/text v0.27.0 // indirect
