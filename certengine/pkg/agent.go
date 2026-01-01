@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func GenerateSelfSignedClient(commonName string, dnsSAN []string) error {
+func GenerateSelfSignedAgent(commonName string, dnsSAN []string) error {
 	priv, privBytes := generateEd25519Key()
 	pub := priv.Public().(ed25519.PublicKey)
 

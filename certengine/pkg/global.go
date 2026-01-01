@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-func GenerateSelfSignedServer(commonName string, ipList, dnsList []string) ([]byte, error) {
+func GenerateSelfSignedPublicFacing(commonName string, ipList, dnsList []string) ([]byte, error) {
 	var ips []net.IP
 	for _, raw := range ipList {
 		raw = strings.TrimSpace(raw)
