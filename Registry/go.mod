@@ -1,8 +1,6 @@
 module github.com/Purple-House/memstore/registry
 
-go 1.24.0
-
-toolchain go1.24.10
+go 1.25.5
 
 require (
 	github.com/google/btree v1.1.3
@@ -12,6 +10,7 @@ require (
 )
 
 require (
+	github.com/Purple-House/memstore/certengine v0.0.0-20260101175413-397baa5a2f63 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
 	golang.org/x/net v0.42.0 // indirect
 	golang.org/x/sys v0.34.0 // indirect

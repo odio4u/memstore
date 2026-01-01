@@ -3,13 +3,14 @@ package main
 import (
 	"log"
 
-	"github.com/Purple-House/memstore/registry/certmaker/pkg"
+	"github.com/Purple-House/memstore/certengine"
+	"github.com/Purple-House/memstore/certengine/pkg"
 )
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
-	cfg := ParseConfig()
+	cfg := certengine.ParseConfig()
 	log.Println("Starting certificate generation...")
 
 	// CA
