@@ -33,7 +33,6 @@ message Error {
 message GatewayPutRequest {
     string region = 1;
     string gateway_ip = 2;
-    string gateway_domain = 3;
     int32 gateway_port = 4;
     Capacity capacity = 5;
     string verifiable_cred_hash = 6;
@@ -49,25 +48,26 @@ message Capacity {
 message GatewayResponse {
     string gateway_id = 1;
     string gateway_ip = 2;
-    string gateway_domain = 3;
     Error error = 4;
 }
 
 message AgentConnectionRequest {
-    string domain = 1 ;
-    string gateway_id = 2;
-    string region = 3;
     string agent_domain = 4;
     string verifiable_cred_hash = 6;
 }
 
+message AgentConnect {
+    string gateway_ip = 1;
+    string gateway_id = 2;
+    string region = 3;
+}
+
 message AgentResponse {
     string agent_id = 1;
-    string agent_domain =2;
-    string gateway_id=3;
-    string gateway_domain = 4;
-    Capacity capacity = 5;
-    Error error = 6;
+    string agent_domain = 2;
+    string gateway_id = 3;
+    Capacity capacity = 4;
+    Error error = 5;
 }
 
 message GatewayHandshake {
