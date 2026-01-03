@@ -340,8 +340,8 @@ func (x *GatewayResponse) GetError() *Error {
 
 type AgentConnectionRequest struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
-	AgentDomain        string                 `protobuf:"bytes,4,opt,name=agent_domain,json=agentDomain,proto3" json:"agent_domain,omitempty"`
-	VerifiableCredHash string                 `protobuf:"bytes,6,opt,name=verifiable_cred_hash,json=verifiableCredHash,proto3" json:"verifiable_cred_hash,omitempty"`
+	AgentDomain        string                 `protobuf:"bytes,1,opt,name=agent_domain,json=agentDomain,proto3" json:"agent_domain,omitempty"`
+	VerifiableCredHash string                 `protobuf:"bytes,2,opt,name=verifiable_cred_hash,json=verifiableCredHash,proto3" json:"verifiable_cred_hash,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -395,6 +395,7 @@ type AgentConnect struct {
 	GatewayIp     string                 `protobuf:"bytes,1,opt,name=gateway_ip,json=gatewayIp,proto3" json:"gateway_ip,omitempty"`
 	GatewayId     string                 `protobuf:"bytes,2,opt,name=gateway_id,json=gatewayId,proto3" json:"gateway_id,omitempty"`
 	Region        string                 `protobuf:"bytes,3,opt,name=region,proto3" json:"region,omitempty"`
+	AgentDomain   string                 `protobuf:"bytes,4,opt,name=agent_domain,json=agentDomain,proto3" json:"agent_domain,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -446,6 +447,13 @@ func (x *AgentConnect) GetGatewayId() string {
 func (x *AgentConnect) GetRegion() string {
 	if x != nil {
 		return x.Region
+	}
+	return ""
+}
+
+func (x *AgentConnect) GetAgentDomain() string {
+	if x != nil {
+		return x.AgentDomain
 	}
 	return ""
 }
@@ -769,14 +777,15 @@ const file_proto_maps_proto_rawDesc = "" +
 	"gateway_ip\x18\x02 \x01(\tR\tgatewayIp\x12!\n" +
 	"\x05error\x18\x04 \x01(\v2\v.maps.ErrorR\x05error\"m\n" +
 	"\x16AgentConnectionRequest\x12!\n" +
-	"\fagent_domain\x18\x04 \x01(\tR\vagentDomain\x120\n" +
-	"\x14verifiable_cred_hash\x18\x06 \x01(\tR\x12verifiableCredHash\"d\n" +
+	"\fagent_domain\x18\x01 \x01(\tR\vagentDomain\x120\n" +
+	"\x14verifiable_cred_hash\x18\x02 \x01(\tR\x12verifiableCredHash\"\x87\x01\n" +
 	"\fAgentConnect\x12\x1d\n" +
 	"\n" +
 	"gateway_ip\x18\x01 \x01(\tR\tgatewayIp\x12\x1d\n" +
 	"\n" +
 	"gateway_id\x18\x02 \x01(\tR\tgatewayId\x12\x16\n" +
-	"\x06region\x18\x03 \x01(\tR\x06region\"\xbb\x01\n" +
+	"\x06region\x18\x03 \x01(\tR\x06region\x12!\n" +
+	"\fagent_domain\x18\x04 \x01(\tR\vagentDomain\"\xbb\x01\n" +
 	"\rAgentResponse\x12\x19\n" +
 	"\bagent_id\x18\x01 \x01(\tR\aagentId\x12!\n" +
 	"\fagent_domain\x18\x02 \x01(\tR\vagentDomain\x12\x1d\n" +
@@ -804,12 +813,13 @@ const file_proto_maps_proto_rawDesc = "" +
 	"\x19ERROR_CODE_ALREADY_EXISTS\x10\x03\x12\x1a\n" +
 	"\x16ERROR_CODE_UNAVAILABLE\x10\x04\x12\x17\n" +
 	"\x13ERROR_CODE_INTERNAL\x10\x05\x12\x1b\n" +
-	"\x17ERROR_CODE_UNAUTHORIZED\x10\x062\x9c\x02\n" +
+	"\x17ERROR_CODE_UNAUTHORIZED\x10\x062\xde\x02\n" +
 	"\x04Maps\x12A\n" +
 	"\x0fRegisterGateway\x12\x17.maps.GatewayPutRequest\x1a\x15.maps.GatewayResponse\x12B\n" +
 	"\rRegisterAgent\x12\x1c.maps.AgentConnectionRequest\x1a\x13.maps.AgentResponse\x12H\n" +
 	"\x16ResolveGatewayForAgent\x12\x16.maps.GatewayHandshake\x1a\x16.maps.MultipleGateways\x12C\n" +
-	"\x16ResolveGatewayForProxy\x12\x12.maps.GatewayProxy\x1a\x15.maps.GatewayResponseB6Z4github.com/Purple-House/memstore/registry/proto;mapsb\x06proto3"
+	"\x16ResolveGatewayForProxy\x12\x12.maps.GatewayProxy\x1a\x15.maps.GatewayResponse\x12@\n" +
+	"\x15ConnectAgentTogateway\x12\x12.maps.AgentConnect\x1a\x13.maps.AgentResponseB6Z4github.com/Purple-House/memstore/registry/proto;mapsb\x06proto3"
 
 var (
 	file_proto_maps_proto_rawDescOnce sync.Once
@@ -851,12 +861,14 @@ var file_proto_maps_proto_depIdxs = []int32{
 	5,  // 8: maps.Maps.RegisterAgent:input_type -> maps.AgentConnectionRequest
 	8,  // 9: maps.Maps.ResolveGatewayForAgent:input_type -> maps.GatewayHandshake
 	10, // 10: maps.Maps.ResolveGatewayForProxy:input_type -> maps.GatewayProxy
-	4,  // 11: maps.Maps.RegisterGateway:output_type -> maps.GatewayResponse
-	7,  // 12: maps.Maps.RegisterAgent:output_type -> maps.AgentResponse
-	9,  // 13: maps.Maps.ResolveGatewayForAgent:output_type -> maps.MultipleGateways
-	4,  // 14: maps.Maps.ResolveGatewayForProxy:output_type -> maps.GatewayResponse
-	11, // [11:15] is the sub-list for method output_type
-	7,  // [7:11] is the sub-list for method input_type
+	6,  // 11: maps.Maps.ConnectAgentTogateway:input_type -> maps.AgentConnect
+	4,  // 12: maps.Maps.RegisterGateway:output_type -> maps.GatewayResponse
+	7,  // 13: maps.Maps.RegisterAgent:output_type -> maps.AgentResponse
+	9,  // 14: maps.Maps.ResolveGatewayForAgent:output_type -> maps.MultipleGateways
+	4,  // 15: maps.Maps.ResolveGatewayForProxy:output_type -> maps.GatewayResponse
+	7,  // 16: maps.Maps.ConnectAgentTogateway:output_type -> maps.AgentResponse
+	12, // [12:17] is the sub-list for method output_type
+	7,  // [7:12] is the sub-list for method input_type
 	7,  // [7:7] is the sub-list for extension type_name
 	7,  // [7:7] is the sub-list for extension extendee
 	0,  // [0:7] is the sub-list for field type_name

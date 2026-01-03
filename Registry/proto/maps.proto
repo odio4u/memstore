@@ -12,6 +12,7 @@ service Maps {
     rpc RegisterAgent (AgentConnectionRequest) returns (AgentResponse);
     rpc ResolveGatewayForAgent (GatewayHandshake) returns (MultipleGateways);
     rpc ResolveGatewayForProxy (GatewayProxy) returns (GatewayResponse);
+    rpc ConnectAgentTogateway (AgentConnect) returns (AgentResponse);
 }
 
 
@@ -52,14 +53,16 @@ message GatewayResponse {
 }
 
 message AgentConnectionRequest {
-    string agent_domain = 4;
-    string verifiable_cred_hash = 6;
+    string agent_domain = 1;
+    string verifiable_cred_hash = 2;
 }
 
 message AgentConnect {
     string gateway_ip = 1;
     string gateway_id = 2;
     string region = 3;
+    string agent_domain = 4;
+    string GatewayAddress = 5;
 }
 
 message AgentResponse {
@@ -86,7 +89,6 @@ message GatewayProxy {
 }
 
 message ProxyConnectionRequest {
-    string proxy_id = 1;
-    string region = 2;
+    string region = 1;
     string verifiable_cred_hash = 3;
 }

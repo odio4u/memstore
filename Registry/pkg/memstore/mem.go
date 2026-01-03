@@ -27,17 +27,18 @@ type MemData struct {
 }
 
 type AgentData struct {
-	AgentID       string
-	AgentDomain   string
-	GatewayID     string
-	GatewayDomain string
+	AgentID        string
+	AgentDomain    string
+	GatewayID      string
+	GatewayIP      string
+	GatewayAddress string
 }
 
 type GatewayData struct {
-	GatewayID     string
-	GatewayIP     string
-	GatewayDomain string
-	Capacity      Capacity
+	GatewayID      string
+	GatewayIP      string
+	GatewayAddress string
+	Capacity       Capacity
 }
 
 type Capacity struct {

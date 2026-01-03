@@ -11,13 +11,11 @@ import (
 func (rpc *RPCMap) RegisterAgent(ctx context.Context, req *mapper.AgentConnectionRequest) (*mapper.AgentResponse, error) {
 
 	agentData := &memstore.AgentData{
-		AgentDomain:   req.AgentDomain,
-		AgentID:       uuid.New().String(),
-		GatewayDomain: req.Domain,
-		GatewayID:     req.GatewayId,
+		AgentDomain: req.AgentDomain,
+		AgentID:     uuid.New().String(),
 	}
 
-	agent, gateway, err := rpc.MemStore.AddAgent("global", agentData)
+	agent, _, err := rpc.MemStore.AddAgent("global", agentData)
 	if err != nil {
 		return &mapper.AgentResponse{
 			Error: &mapper.Error{
@@ -27,17 +25,32 @@ func (rpc *RPCMap) RegisterAgent(ctx context.Context, req *mapper.AgentConnectio
 		}, nil
 	}
 	return &mapper.AgentResponse{
-		AgentId:       agent.AgentID,
-		AgentDomain:   agent.AgentDomain,
-		GatewayDomain: gateway.GatewayDomain,
-		GatewayId:     gateway.GatewayID,
-		Capacity: &mapper.Capacity{
-			Cpu:       gateway.Capacity.CPU,
-			Memory:    gateway.Capacity.Memory,
-			Storage:   gateway.Capacity.Storage,
-			Bandwidth: gateway.Capacity.Bandwidth,
-		},
-		Error: nil,
+		AgentId:     agent.AgentID,
+		AgentDomain: agent.AgentDomain,
+		Error:       nil,
+	}, nil
+}
+
+func (rpc *RPCMap) ConnectAgentTogateway(ctx context.Context, req *mapper.AgentConnect) (*mapper.AgentResponse, error) {
+
+	agentData := &memstore.AgentData{
+		AgentDomain: req.AgentDomain,
+		GatewayID:   req.GatewayId,
+	}
+
+	agent, _, err := rpc.MemStore.AddAgent("global", agentData)
+	if err != nil {
+		return &mapper.AgentResponse{
+			Error: &mapper.Error{
+				Code:    1,
+				Message: err.Error(),
+			},
+		}, nil
+	}
+	return &mapper.AgentResponse{
+		AgentId:     agent.AgentID,
+		AgentDomain: agent.AgentDomain,
+		Error:       nil,
 	}, nil
 }
 
@@ -48,9 +61,8 @@ func (rpc *RPCMap) ResolveGatewayForAgent(ctx context.Context, req *mapper.Gatew
 	var gatewayResponses []*mapper.GatewayResponse
 	for _, gateway := range gateways {
 		gatewayResponses = append(gatewayResponses, &mapper.GatewayResponse{
-			GatewayId:     gateway.GatewayID,
-			GatewayDomain: gateway.GatewayDomain,
-			GatewayIp:     gateway.GatewayIP,
+			GatewayId: gateway.GatewayID,
+			GatewayIp: gateway.GatewayIP,
 		})
 	}
 
