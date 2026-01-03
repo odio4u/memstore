@@ -2,7 +2,6 @@ package maps
 
 import (
 	"context"
-	"fmt"
 
 	memstore "github.com/Purple-House/memstore/registry/pkg/memstore"
 	mapper "github.com/Purple-House/memstore/registry/proto"
@@ -47,14 +46,14 @@ func (rpc *RPCMap) RegisterGateway(ctx context.Context, req *mapper.GatewayPutRe
 		Op: walpb.Operation_OP_PUT_GATEWAY,
 		Gateway: &walpb.GatewayPutRequest{
 			Region:         region,
-			GatewayIp:      gatewayData.GatewayIP,
-			GatewayId:      gatewayData.GatewayID,
-			GatewayPort:    gatewayData.GatewayPort,
-			GatewayAddress: fmt.Sprintf("%s:%d", gatewayData.GatewayIP, gatewayData.GatewayPort),
+			GatewayIp:      data.GatewayIP,
+			GatewayId:      data.GatewayID,
+			GatewayPort:    data.GatewayPort,
+			GatewayAddress: data.GatewayAddress,
 			Capacity: &walpb.Capacity{
-				Cpu:     gatewayData.Capacity.CPU,
-				Memory:  gatewayData.Capacity.Memory,
-				Storage: gatewayData.Capacity.Storage,
+				Cpu:     data.Capacity.CPU,
+				Memory:  data.Capacity.Memory,
+				Storage: data.Capacity.Storage,
 			},
 		},
 	})
