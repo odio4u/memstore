@@ -23,8 +23,8 @@ func (mem *MemStore) AddGateway(region string, gateway *GatewayData) (GatewayDat
 			Rank: oldRank,
 			ID:   gateway.GatewayAddress,
 		})
-
-		return *gatewayData, nil
+		// Update gateway data
+		gateway.GatewayID = gatewayData.GatewayID
 	}
 	data.Gateways[gateway.GatewayAddress] = gateway
 	data.ranked.ReplaceOrInsert(&GatewayRankItem{
