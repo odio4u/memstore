@@ -49,6 +49,7 @@ message Capacity {
 message GatewayResponse {
     string gateway_id = 1;
     string gateway_ip = 2;
+    string gateway_address = 3;
     Error error = 4;
 }
 

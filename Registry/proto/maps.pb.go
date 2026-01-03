@@ -279,12 +279,13 @@ func (x *Capacity) GetBandwidth() int32 {
 }
 
 type GatewayResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	GatewayId     string                 `protobuf:"bytes,1,opt,name=gateway_id,json=gatewayId,proto3" json:"gateway_id,omitempty"`
-	GatewayIp     string                 `protobuf:"bytes,2,opt,name=gateway_ip,json=gatewayIp,proto3" json:"gateway_ip,omitempty"`
-	Error         *Error                 `protobuf:"bytes,4,opt,name=error,proto3" json:"error,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	GatewayId      string                 `protobuf:"bytes,1,opt,name=gateway_id,json=gatewayId,proto3" json:"gateway_id,omitempty"`
+	GatewayIp      string                 `protobuf:"bytes,2,opt,name=gateway_ip,json=gatewayIp,proto3" json:"gateway_ip,omitempty"`
+	GatewayAddress string                 `protobuf:"bytes,3,opt,name=gateway_address,json=gatewayAddress,proto3" json:"gateway_address,omitempty"`
+	Error          *Error                 `protobuf:"bytes,4,opt,name=error,proto3" json:"error,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *GatewayResponse) Reset() {
@@ -327,6 +328,13 @@ func (x *GatewayResponse) GetGatewayId() string {
 func (x *GatewayResponse) GetGatewayIp() string {
 	if x != nil {
 		return x.GatewayIp
+	}
+	return ""
+}
+
+func (x *GatewayResponse) GetGatewayAddress() string {
+	if x != nil {
+		return x.GatewayAddress
 	}
 	return ""
 }
@@ -391,13 +399,14 @@ func (x *AgentConnectionRequest) GetVerifiableCredHash() string {
 }
 
 type AgentConnect struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	GatewayIp     string                 `protobuf:"bytes,1,opt,name=gateway_ip,json=gatewayIp,proto3" json:"gateway_ip,omitempty"`
-	GatewayId     string                 `protobuf:"bytes,2,opt,name=gateway_id,json=gatewayId,proto3" json:"gateway_id,omitempty"`
-	Region        string                 `protobuf:"bytes,3,opt,name=region,proto3" json:"region,omitempty"`
-	AgentDomain   string                 `protobuf:"bytes,4,opt,name=agent_domain,json=agentDomain,proto3" json:"agent_domain,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	GatewayIp      string                 `protobuf:"bytes,1,opt,name=gateway_ip,json=gatewayIp,proto3" json:"gateway_ip,omitempty"`
+	GatewayId      string                 `protobuf:"bytes,2,opt,name=gateway_id,json=gatewayId,proto3" json:"gateway_id,omitempty"`
+	Region         string                 `protobuf:"bytes,3,opt,name=region,proto3" json:"region,omitempty"`
+	AgentDomain    string                 `protobuf:"bytes,4,opt,name=agent_domain,json=agentDomain,proto3" json:"agent_domain,omitempty"`
+	GatewayAddress string                 `protobuf:"bytes,5,opt,name=GatewayAddress,proto3" json:"GatewayAddress,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *AgentConnect) Reset() {
@@ -454,6 +463,13 @@ func (x *AgentConnect) GetRegion() string {
 func (x *AgentConnect) GetAgentDomain() string {
 	if x != nil {
 		return x.AgentDomain
+	}
+	return ""
+}
+
+func (x *AgentConnect) GetGatewayAddress() string {
+	if x != nil {
+		return x.GatewayAddress
 	}
 	return ""
 }
@@ -692,8 +708,7 @@ func (x *GatewayProxy) GetProxyId() string {
 
 type ProxyConnectionRequest struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
-	ProxyId            string                 `protobuf:"bytes,1,opt,name=proxy_id,json=proxyId,proto3" json:"proxy_id,omitempty"`
-	Region             string                 `protobuf:"bytes,2,opt,name=region,proto3" json:"region,omitempty"`
+	Region             string                 `protobuf:"bytes,1,opt,name=region,proto3" json:"region,omitempty"`
 	VerifiableCredHash string                 `protobuf:"bytes,3,opt,name=verifiable_cred_hash,json=verifiableCredHash,proto3" json:"verifiable_cred_hash,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
@@ -729,13 +744,6 @@ func (*ProxyConnectionRequest) Descriptor() ([]byte, []int) {
 	return file_proto_maps_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *ProxyConnectionRequest) GetProxyId() string {
-	if x != nil {
-		return x.ProxyId
-	}
-	return ""
-}
-
 func (x *ProxyConnectionRequest) GetRegion() string {
 	if x != nil {
 		return x.Region
@@ -769,23 +777,25 @@ const file_proto_maps_proto_rawDesc = "" +
 	"\x03cpu\x18\x01 \x01(\x05R\x03cpu\x12\x16\n" +
 	"\x06memory\x18\x02 \x01(\x05R\x06memory\x12\x18\n" +
 	"\astorage\x18\x03 \x01(\x05R\astorage\x12\x1c\n" +
-	"\tbandwidth\x18\x04 \x01(\x05R\tbandwidth\"r\n" +
+	"\tbandwidth\x18\x04 \x01(\x05R\tbandwidth\"\x9b\x01\n" +
 	"\x0fGatewayResponse\x12\x1d\n" +
 	"\n" +
 	"gateway_id\x18\x01 \x01(\tR\tgatewayId\x12\x1d\n" +
 	"\n" +
-	"gateway_ip\x18\x02 \x01(\tR\tgatewayIp\x12!\n" +
+	"gateway_ip\x18\x02 \x01(\tR\tgatewayIp\x12'\n" +
+	"\x0fgateway_address\x18\x03 \x01(\tR\x0egatewayAddress\x12!\n" +
 	"\x05error\x18\x04 \x01(\v2\v.maps.ErrorR\x05error\"m\n" +
 	"\x16AgentConnectionRequest\x12!\n" +
 	"\fagent_domain\x18\x01 \x01(\tR\vagentDomain\x120\n" +
-	"\x14verifiable_cred_hash\x18\x02 \x01(\tR\x12verifiableCredHash\"\x87\x01\n" +
+	"\x14verifiable_cred_hash\x18\x02 \x01(\tR\x12verifiableCredHash\"\xaf\x01\n" +
 	"\fAgentConnect\x12\x1d\n" +
 	"\n" +
 	"gateway_ip\x18\x01 \x01(\tR\tgatewayIp\x12\x1d\n" +
 	"\n" +
 	"gateway_id\x18\x02 \x01(\tR\tgatewayId\x12\x16\n" +
 	"\x06region\x18\x03 \x01(\tR\x06region\x12!\n" +
-	"\fagent_domain\x18\x04 \x01(\tR\vagentDomain\"\xbb\x01\n" +
+	"\fagent_domain\x18\x04 \x01(\tR\vagentDomain\x12&\n" +
+	"\x0eGatewayAddress\x18\x05 \x01(\tR\x0eGatewayAddress\"\xbb\x01\n" +
 	"\rAgentResponse\x12\x19\n" +
 	"\bagent_id\x18\x01 \x01(\tR\aagentId\x12!\n" +
 	"\fagent_domain\x18\x02 \x01(\tR\vagentDomain\x12\x1d\n" +
@@ -801,10 +811,9 @@ const file_proto_maps_proto_rawDesc = "" +
 	"\fGatewayProxy\x12!\n" +
 	"\fagent_domain\x18\x01 \x01(\tR\vagentDomain\x12\x16\n" +
 	"\x06region\x18\x02 \x01(\tR\x06region\x12\x19\n" +
-	"\bproxy_id\x18\x03 \x01(\tR\aproxyId\"}\n" +
-	"\x16ProxyConnectionRequest\x12\x19\n" +
-	"\bproxy_id\x18\x01 \x01(\tR\aproxyId\x12\x16\n" +
-	"\x06region\x18\x02 \x01(\tR\x06region\x120\n" +
+	"\bproxy_id\x18\x03 \x01(\tR\aproxyId\"b\n" +
+	"\x16ProxyConnectionRequest\x12\x16\n" +
+	"\x06region\x18\x01 \x01(\tR\x06region\x120\n" +
 	"\x14verifiable_cred_hash\x18\x03 \x01(\tR\x12verifiableCredHash*\xd3\x01\n" +
 	"\tErrorCode\x12\x1a\n" +
 	"\x16ERROR_CODE_UNSPECIFIED\x10\x00\x12\x1f\n" +

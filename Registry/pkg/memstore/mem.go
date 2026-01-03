@@ -38,6 +38,7 @@ type GatewayData struct {
 	GatewayID      string
 	GatewayIP      string
 	GatewayAddress string
+	GatewayPort    int32
 	Capacity       Capacity
 }
 

@@ -2,6 +2,7 @@ package maps
 
 import (
 	"context"
+	"fmt"
 
 	memstore "github.com/Purple-House/memstore/registry/pkg/memstore"
 	mapper "github.com/Purple-House/memstore/registry/proto"
@@ -12,8 +13,9 @@ import (
 
 func (rpc *RPCMap) RegisterGateway(ctx context.Context, req *mapper.GatewayPutRequest) (*mapper.GatewayResponse, error) {
 	gatewayData := &memstore.GatewayData{
-		GatewayIP: req.GatewayIp,
-		GatewayID: uuid.New().String(),
+		GatewayIP:   req.GatewayIp,
+		GatewayID:   uuid.New().String(),
+		GatewayPort: req.GatewayPort,
 		Capacity: memstore.Capacity{
 			CPU:     req.Capacity.Cpu,
 			Memory:  req.Capacity.Memory,
@@ -30,15 +32,25 @@ func (rpc *RPCMap) RegisterGateway(ctx context.Context, req *mapper.GatewayPutRe
 		region,
 		gatewayData,
 	)
+	if err != nil {
+		return &mapper.GatewayResponse{
+			Error: &mapper.Error{
+				Code:    1,
+				Message: err.Error(),
+			},
+		}, nil
+	}
 
 	// this should be zero lock write to WAL
 	err = rpc.WALer.Append(&walpb.WalRecord{
 
 		Op: walpb.Operation_OP_PUT_GATEWAY,
 		Gateway: &walpb.GatewayPutRequest{
-			Region:    region,
-			GatewayIp: gatewayData.GatewayIP,
-			GatewayId: gatewayData.GatewayID,
+			Region:         region,
+			GatewayIp:      gatewayData.GatewayIP,
+			GatewayId:      gatewayData.GatewayID,
+			GatewayPort:    gatewayData.GatewayPort,
+			GatewayAddress: fmt.Sprintf("%s:%d", gatewayData.GatewayIP, gatewayData.GatewayPort),
 			Capacity: &walpb.Capacity{
 				Cpu:     gatewayData.Capacity.CPU,
 				Memory:  gatewayData.Capacity.Memory,
@@ -56,8 +68,9 @@ func (rpc *RPCMap) RegisterGateway(ctx context.Context, req *mapper.GatewayPutRe
 		}, nil
 	}
 	return &mapper.GatewayResponse{
-		GatewayId: data.GatewayID,
-		GatewayIp: data.GatewayIP,
+		GatewayId:      data.GatewayID,
+		GatewayIp:      data.GatewayIP,
+		GatewayAddress: data.GatewayAddress,
 	}, nil
 }
 
@@ -70,8 +83,9 @@ func (rpc *RPCMap) ResolveGatewayForProxy(ctx context.Context, req *mapper.Gatew
 
 	if exist {
 		return &mapper.GatewayResponse{
-			GatewayId: gateway.GatewayID,
-			GatewayIp: gateway.GatewayIP,
+			GatewayId:      gateway.GatewayID,
+			GatewayIp:      gateway.GatewayIP,
+			GatewayAddress: gateway.GatewayAddress,
 		}, nil
 	}
 	return &mapper.GatewayResponse{

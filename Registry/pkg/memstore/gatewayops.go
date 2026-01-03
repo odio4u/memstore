@@ -12,13 +12,16 @@ func (mem *MemStore) AddGateway(region string, gateway *GatewayData) (GatewayDat
 	data.Mu.Lock()
 	defer data.Mu.Unlock()
 
+	gatewayAddress := fmt.Sprintf("%s:%d", gateway.GatewayIP, gateway.GatewayPort)
+	gateway.GatewayAddress = gatewayAddress
+
 	gatewayData, exist := data.Gateways[gateway.GatewayAddress]
 	if exist {
 		// Remove old rank item
 		oldRank := gatewayData.Capacity.Rank()
 		data.ranked.Delete(&GatewayRankItem{
 			Rank: oldRank,
-			ID:   gateway.GatewayID,
+			ID:   gateway.GatewayAddress,
 		})
 
 		return *gatewayData, nil
@@ -26,7 +29,7 @@ func (mem *MemStore) AddGateway(region string, gateway *GatewayData) (GatewayDat
 	data.Gateways[gateway.GatewayAddress] = gateway
 	data.ranked.ReplaceOrInsert(&GatewayRankItem{
 		Rank: gateway.Capacity.Rank(),
-		ID:   gateway.GatewayID,
+		ID:   gateway.GatewayAddress,
 	})
 
 	fmt.Printf("Added gateway %s in region %s\n", gateway.GatewayAddress, region)

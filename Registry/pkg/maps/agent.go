@@ -61,8 +61,9 @@ func (rpc *RPCMap) ResolveGatewayForAgent(ctx context.Context, req *mapper.Gatew
 	var gatewayResponses []*mapper.GatewayResponse
 	for _, gateway := range gateways {
 		gatewayResponses = append(gatewayResponses, &mapper.GatewayResponse{
-			GatewayId: gateway.GatewayID,
-			GatewayIp: gateway.GatewayIP,
+			GatewayId:      gateway.GatewayID,
+			GatewayIp:      gateway.GatewayIP,
+			GatewayAddress: gateway.GatewayAddress,
 		})
 	}
 
