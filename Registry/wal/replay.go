@@ -81,6 +81,7 @@ func ApplyRecord(store *memstore.MemStore, rec *walpb.WalRecord) error {
 			GatewayIP:      rec.Gateway.GatewayIp,
 			GatewayPort:    rec.Gateway.GatewayPort,
 			GatewayAddress: rec.Gateway.GatewayAddress,
+			VerifiableHash: rec.Gateway.VerifiableCredHash,
 			Capacity: memstore.Capacity{
 				CPU:       rec.Gateway.Capacity.Cpu,
 				Memory:    rec.Gateway.Capacity.Memory,

@@ -11,10 +11,21 @@ import (
 )
 
 func (rpc *RPCMap) RegisterGateway(ctx context.Context, req *mapper.GatewayPutRequest) (*mapper.GatewayResponse, error) {
+
+	if req.GatewayIp == "" || req.GatewayPort == 0 || req.VerifiableCredHash == "" {
+		return &mapper.GatewayResponse{
+			Error: &mapper.Error{
+				Code:    1,
+				Message: "invalid gateway registration request",
+			},
+		}, nil
+	}
+
 	gatewayData := &memstore.GatewayData{
-		GatewayIP:   req.GatewayIp,
-		GatewayID:   uuid.New().String(),
-		GatewayPort: req.GatewayPort,
+		GatewayIP:      req.GatewayIp,
+		GatewayID:      uuid.New().String(),
+		GatewayPort:    req.GatewayPort,
+		VerifiableHash: req.VerifiableCredHash,
 		Capacity: memstore.Capacity{
 			CPU:     req.Capacity.Cpu,
 			Memory:  req.Capacity.Memory,
@@ -45,11 +56,12 @@ func (rpc *RPCMap) RegisterGateway(ctx context.Context, req *mapper.GatewayPutRe
 
 		Op: walpb.Operation_OP_PUT_GATEWAY,
 		Gateway: &walpb.GatewayPutRequest{
-			Region:         region,
-			GatewayIp:      data.GatewayIP,
-			GatewayId:      data.GatewayID,
-			GatewayPort:    data.GatewayPort,
-			GatewayAddress: data.GatewayAddress,
+			Region:             region,
+			GatewayIp:          data.GatewayIP,
+			GatewayId:          data.GatewayID,
+			GatewayPort:        data.GatewayPort,
+			GatewayAddress:     data.GatewayAddress,
+			VerifiableCredHash: data.VerifiableHash,
 			Capacity: &walpb.Capacity{
 				Cpu:     data.Capacity.CPU,
 				Memory:  data.Capacity.Memory,

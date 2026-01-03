@@ -40,6 +40,7 @@ type GatewayData struct {
 	GatewayAddress string
 	GatewayPort    int32
 	Capacity       Capacity
+	VerifiableHash string
 }
 
 type Capacity struct {
