@@ -12,24 +12,24 @@ func (mem *MemStore) AddGateway(region string, gateway *GatewayData) (GatewayDat
 	data.Mu.Lock()
 	defer data.Mu.Unlock()
 
-	gatewayData, exist := data.Gateways[gateway.GatewayDomain]
+	gatewayData, exist := data.Gateways[gateway.GatewayAddress]
 	if exist {
 		// Remove old rank item
 		oldRank := gatewayData.Capacity.Rank()
 		data.ranked.Delete(&GatewayRankItem{
 			Rank: oldRank,
-			ID:   gateway.GatewayDomain,
+			ID:   gateway.GatewayID,
 		})
 
 		return *gatewayData, nil
 	}
-	data.Gateways[gateway.GatewayDomain] = gateway
+	data.Gateways[gateway.GatewayAddress] = gateway
 	data.ranked.ReplaceOrInsert(&GatewayRankItem{
 		Rank: gateway.Capacity.Rank(),
-		ID:   gateway.GatewayDomain,
+		ID:   gateway.GatewayID,
 	})
 
-	fmt.Printf("Added gateway %s in region %s\n", gateway.GatewayDomain, region)
+	fmt.Printf("Added gateway %s in region %s\n", gateway.GatewayAddress, region)
 	return *gateway, nil
 }
 
@@ -53,11 +53,11 @@ func (mem *MemStore) GetTopKGateways(region string, k int) []*GatewayData {
 	return result
 }
 
-func (mem *MemStore) GetGateway(region, gatewayDomain string) (*GatewayData, bool) {
+func (mem *MemStore) GetGateway(region, gatewayAddress string) (*GatewayData, bool) {
 	data := mem.RegionExist(region)
 
 	data.Mu.RLock()
 	defer data.Mu.RUnlock()
-	gateway, exist := data.Gateways[gatewayDomain]
+	gateway, exist := data.Gateways[gatewayAddress]
 	return gateway, exist
 }
