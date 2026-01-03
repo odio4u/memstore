@@ -22,14 +22,14 @@ message WalRecord {
 message GatewayPutRequest {
     string region = 1;
     string gateway_ip = 2;
-    string gateway_domain = 3;
+    string gateway_address = 3;
     int32 gateway_port = 4;
     Capacity capacity = 5;
     string gateway_id = 6;
 }
 
 message AgentConnectionRequest {
-    string domain = 1 ;
+    string gateway_address = 1 ;
     string gateway_id = 2;
     string region = 3;
     string agent_domain = 4;

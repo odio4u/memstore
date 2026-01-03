@@ -77,9 +77,9 @@ func ApplyRecord(store *memstore.MemStore, rec *walpb.WalRecord) error {
 	case walpb.Operation_OP_PUT_GATEWAY:
 		region := rec.Gateway.Region
 		gatewayData := &memstore.GatewayData{
-			GatewayID:     uuid.NewString(),
-			GatewayIP:     rec.Gateway.GatewayIp,
-			GatewayDomain: rec.Gateway.GatewayDomain,
+			GatewayID:      uuid.NewString(),
+			GatewayIP:      rec.Gateway.GatewayIp,
+			GatewayAddress: rec.Gateway.GatewayAddress,
 			Capacity: memstore.Capacity{
 				CPU:       rec.Gateway.Capacity.Cpu,
 				Memory:    rec.Gateway.Capacity.Memory,
@@ -97,10 +97,10 @@ func ApplyRecord(store *memstore.MemStore, rec *walpb.WalRecord) error {
 	case walpb.Operation_OP_PUT_AGENT:
 		region := rec.Agent.Region
 		agentData := &memstore.AgentData{
-			AgentID:       uuid.NewString(),
-			AgentDomain:   rec.Agent.AgentDomain,
-			GatewayDomain: rec.Agent.Domain,
-			GatewayID:     rec.Agent.GatewayId,
+			AgentID:        uuid.NewString(),
+			AgentDomain:    rec.Agent.AgentDomain,
+			GatewayAddress: rec.Agent.GatewayAddress,
+			GatewayID:      rec.Agent.GatewayId,
 		}
 
 		_, _, err := store.AddAgent(region, agentData)
