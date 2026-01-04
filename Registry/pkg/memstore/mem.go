@@ -32,6 +32,7 @@ type AgentData struct {
 	GatewayID      string
 	GatewayIP      string
 	GatewayAddress string
+	VerifiableHash string
 }
 
 type GatewayData struct {

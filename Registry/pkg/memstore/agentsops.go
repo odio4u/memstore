@@ -3,15 +3,16 @@ package memstore
 import "fmt"
 
 func (mem *MemStore) AddAgent(region string, agent *AgentData) (*AgentData, *GatewayData, error) {
-	data := mem.RegionExist(region)
-
-	data.Mu.Lock()
-	defer data.Mu.Unlock()
 
 	gateway, exist := mem.GetGateway(region, agent.GatewayAddress)
 	if !exist {
 		return &AgentData{}, nil, fmt.Errorf("gateway %s not found in region %s", agent.GatewayAddress, region)
 	}
+
+	data := mem.RegionExist(region)
+
+	data.Mu.Lock()
+	defer data.Mu.Unlock()
 
 	_, exist = data.Agents[agent.AgentDomain]
 	if exist {

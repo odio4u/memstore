@@ -2,7 +2,9 @@ package wal
 
 import (
 	"bufio"
+	"crypto/sha256"
 	"encoding/binary"
+	"encoding/hex"
 	"fmt"
 	"hash/crc32"
 	"io"
@@ -76,8 +78,13 @@ func ApplyRecord(store *memstore.MemStore, rec *walpb.WalRecord) error {
 
 	case walpb.Operation_OP_PUT_GATEWAY:
 		region := rec.Gateway.Region
+		identityBytes := sha256.Sum256([]byte(
+			rec.Gateway.VerifiableCredHash + "|" + rec.Gateway.GatewayIp,
+		))
+
+		identity := hex.EncodeToString(identityBytes[:])
 		gatewayData := &memstore.GatewayData{
-			GatewayID:      uuid.NewString(),
+			GatewayID:      identity,
 			GatewayIP:      rec.Gateway.GatewayIp,
 			GatewayPort:    rec.Gateway.GatewayPort,
 			GatewayAddress: rec.Gateway.GatewayAddress,
