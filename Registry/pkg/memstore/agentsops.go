@@ -32,3 +32,20 @@ func (mem *MemStore) AddAgent(region string, agent *AgentData) (*AgentData, *Gat
 	fmt.Println("Added the agent to gateway", agent.AgentID, agent.GatewayID)
 	return agent, gateway, nil
 }
+
+func (mem *MemStore) GetAgent(agentDomain, region string) (*AgentData, bool) {
+	data := mem.RegionExist(region)
+	agent, exists := data.Agents[agentDomain]
+	if !exists {
+		return &AgentData{}, false
+	}
+
+	gateway, exist := mem.GetGateway(region, agent.GatewayID)
+	if exist {
+		agent.GatewayIP = gateway.GatewayIP
+		agent.GatewayAddress = gateway.GatewayAddress
+		agent.GatewayID = gateway.GatewayID
+	}
+
+	return agent, exists
+}
