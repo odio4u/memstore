@@ -420,6 +420,7 @@ type AgentResponse struct {
 	AgentDomain    string                 `protobuf:"bytes,2,opt,name=agent_domain,json=agentDomain,proto3" json:"agent_domain,omitempty"`
 	GatewayId      string                 `protobuf:"bytes,3,opt,name=gateway_id,json=gatewayId,proto3" json:"gateway_id,omitempty"`
 	GatewayAddress string                 `protobuf:"bytes,4,opt,name=gateway_address,json=gatewayAddress,proto3" json:"gateway_address,omitempty"`
+	GatewayIp      string                 `protobuf:"bytes,7,opt,name=gateway_ip,json=gatewayIp,proto3" json:"gateway_ip,omitempty"`
 	Capacity       *Capacity              `protobuf:"bytes,5,opt,name=capacity,proto3" json:"capacity,omitempty"`
 	Error          *Error                 `protobuf:"bytes,6,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields  protoimpl.UnknownFields
@@ -480,6 +481,13 @@ func (x *AgentResponse) GetGatewayId() string {
 func (x *AgentResponse) GetGatewayAddress() string {
 	if x != nil {
 		return x.GatewayAddress
+	}
+	return ""
+}
+
+func (x *AgentResponse) GetGatewayIp() string {
+	if x != nil {
+		return x.GatewayIp
 	}
 	return ""
 }
@@ -738,13 +746,15 @@ const file_proto_maps_proto_rawDesc = "" +
 	"\x14verifiable_cred_hash\x18\x02 \x01(\tR\x12verifiableCredHash\x12\x1d\n" +
 	"\n" +
 	"gateway_id\x18\x03 \x01(\tR\tgatewayId\x12\x16\n" +
-	"\x06region\x18\x04 \x01(\tR\x06region\"\xe4\x01\n" +
+	"\x06region\x18\x04 \x01(\tR\x06region\"\x83\x02\n" +
 	"\rAgentResponse\x12\x19\n" +
 	"\bagent_id\x18\x01 \x01(\tR\aagentId\x12!\n" +
 	"\fagent_domain\x18\x02 \x01(\tR\vagentDomain\x12\x1d\n" +
 	"\n" +
 	"gateway_id\x18\x03 \x01(\tR\tgatewayId\x12'\n" +
-	"\x0fgateway_address\x18\x04 \x01(\tR\x0egatewayAddress\x12*\n" +
+	"\x0fgateway_address\x18\x04 \x01(\tR\x0egatewayAddress\x12\x1d\n" +
+	"\n" +
+	"gateway_ip\x18\a \x01(\tR\tgatewayIp\x12*\n" +
 	"\bcapacity\x18\x05 \x01(\v2\x0e.maps.CapacityR\bcapacity\x12!\n" +
 	"\x05error\x18\x06 \x01(\v2\v.maps.ErrorR\x05error\"*\n" +
 	"\x10GatewayHandshake\x12\x16\n" +

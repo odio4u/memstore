@@ -12,6 +12,15 @@ import (
 
 func (rpc *RPCMap) RegisterAgent(ctx context.Context, req *mapper.AgentConnectionRequest) (*mapper.AgentResponse, error) {
 
+	if req.VerifiableCredHash == "" || req.AgentDomain == "" || req.GatewayId == "" || req.Region == "" {
+		return &mapper.AgentResponse{
+			Error: &mapper.Error{
+				Code:    1,
+				Message: "invalid agent registration request",
+			},
+		}, nil
+	}
+
 	identityBytes := sha256.Sum256([]byte(
 		req.VerifiableCredHash + "|" + req.AgentDomain,
 	))
@@ -22,10 +31,11 @@ func (rpc *RPCMap) RegisterAgent(ctx context.Context, req *mapper.AgentConnectio
 	agentData := &memstore.AgentData{
 		AgentDomain:    req.AgentDomain,
 		AgentID:        identity,
+		GatewayID:      req.GatewayId,
 		VerifiableHash: req.VerifiableCredHash,
 	}
 
-	agent, _, err := rpc.MemStore.AddAgent(req.Region, agentData)
+	agent, gateway, err := rpc.MemStore.AddAgent(req.Region, agentData)
 	if err != nil {
 		return &mapper.AgentResponse{
 			Error: &mapper.Error{
@@ -41,31 +51,12 @@ func (rpc *RPCMap) RegisterAgent(ctx context.Context, req *mapper.AgentConnectio
 		AgentDomain:    agent.AgentDomain,
 		GatewayId:      agent.GatewayID,
 		GatewayAddress: agent.GatewayAddress,
-		Error:          nil,
-	}, nil
-}
-
-func (rpc *RPCMap) ConnectAgentTogateway(ctx context.Context, req *mapper.AgentConnect) (*mapper.AgentResponse, error) {
-
-	agentData := &memstore.AgentData{
-		AgentDomain: req.AgentDomain,
-		GatewayID:   req.GatewayId,
-	}
-
-	agent, _, err := rpc.MemStore.AddAgent("global", agentData)
-	if err != nil {
-		return &mapper.AgentResponse{
-			Error: &mapper.Error{
-				Code:    1,
-				Message: err.Error(),
-			},
-		}, nil
-	}
-	return &mapper.AgentResponse{
-		AgentId:        agent.AgentID,
-		AgentDomain:    agent.AgentDomain,
-		GatewayId:      agent.GatewayID,
-		GatewayAddress: agent.GatewayAddress,
-		Error:          nil,
+		GatewayIp:      agent.GatewayIP,
+		Capacity: &mapper.Capacity{
+			Cpu:     gateway.Capacity.CPU,
+			Memory:  gateway.Capacity.Memory,
+			Storage: gateway.Capacity.Storage,
+		},
+		Error: nil,
 	}, nil
 }

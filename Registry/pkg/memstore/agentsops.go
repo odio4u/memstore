@@ -4,9 +4,9 @@ import "fmt"
 
 func (mem *MemStore) AddAgent(region string, agent *AgentData) (*AgentData, *GatewayData, error) {
 
-	gateway, exist := mem.GetGateway(region, agent.GatewayAddress)
+	gateway, exist := mem.GetGateway(region, agent.GatewayID)
 	if !exist {
-		return &AgentData{}, nil, fmt.Errorf("gateway %s not found in region %s", agent.GatewayAddress, region)
+		return &AgentData{}, nil, fmt.Errorf("gateway %s not found in region %s", agent.GatewayID, region)
 	}
 
 	data := mem.RegionExist(region)
@@ -23,6 +23,9 @@ func (mem *MemStore) AddAgent(region string, agent *AgentData) (*AgentData, *Gat
 		agent_data.GatewayAddress = gateway.GatewayAddress
 		return agent_data, gateway, nil
 	}
+
+	agent.GatewayIP = gateway.GatewayIP
+	agent.GatewayAddress = gateway.GatewayAddress
 
 	data.Agents[agent.AgentDomain] = agent
 	return agent, gateway, nil

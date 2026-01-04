@@ -56,11 +56,11 @@ func (mem *MemStore) GetTopKGateways(region string, k int) []*GatewayData {
 	return result
 }
 
-func (mem *MemStore) GetGateway(region, gatewayAddress string) (*GatewayData, bool) {
+func (mem *MemStore) GetGateway(region, GatewayId string) (*GatewayData, bool) {
 	data := mem.RegionExist(region)
 
 	data.Mu.RLock()
 	defer data.Mu.RUnlock()
-	gateway, exist := data.Gateways[gatewayAddress]
+	gateway, exist := data.Gateways[GatewayId]
 	return gateway, exist
 }
