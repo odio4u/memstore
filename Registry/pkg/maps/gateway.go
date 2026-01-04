@@ -88,5 +88,11 @@ func (rpc *RPCMap) RegisterGateway(ctx context.Context, req *mapper.GatewayPutRe
 		GatewayId:      data.GatewayID,
 		GatewayIp:      data.GatewayIP,
 		GatewayAddress: data.GatewayAddress,
+		Capacity: &mapper.Capacity{
+			Cpu:     data.Capacity.CPU,
+			Memory:  data.Capacity.Memory,
+			Storage: data.Capacity.Storage,
+		},
+		Error: nil,
 	}, nil
 }

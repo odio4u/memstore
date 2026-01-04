@@ -283,7 +283,8 @@ type GatewayResponse struct {
 	GatewayId      string                 `protobuf:"bytes,1,opt,name=gateway_id,json=gatewayId,proto3" json:"gateway_id,omitempty"`
 	GatewayIp      string                 `protobuf:"bytes,2,opt,name=gateway_ip,json=gatewayIp,proto3" json:"gateway_ip,omitempty"`
 	GatewayAddress string                 `protobuf:"bytes,3,opt,name=gateway_address,json=gatewayAddress,proto3" json:"gateway_address,omitempty"`
-	Error          *Error                 `protobuf:"bytes,4,opt,name=error,proto3" json:"error,omitempty"`
+	Capacity       *Capacity              `protobuf:"bytes,4,opt,name=capacity,proto3" json:"capacity,omitempty"`
+	Error          *Error                 `protobuf:"bytes,5,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -337,6 +338,13 @@ func (x *GatewayResponse) GetGatewayAddress() string {
 		return x.GatewayAddress
 	}
 	return ""
+}
+
+func (x *GatewayResponse) GetCapacity() *Capacity {
+	if x != nil {
+		return x.Capacity
+	}
+	return nil
 }
 
 func (x *GatewayResponse) GetError() *Error {
@@ -420,9 +428,9 @@ type AgentResponse struct {
 	AgentDomain    string                 `protobuf:"bytes,2,opt,name=agent_domain,json=agentDomain,proto3" json:"agent_domain,omitempty"`
 	GatewayId      string                 `protobuf:"bytes,3,opt,name=gateway_id,json=gatewayId,proto3" json:"gateway_id,omitempty"`
 	GatewayAddress string                 `protobuf:"bytes,4,opt,name=gateway_address,json=gatewayAddress,proto3" json:"gateway_address,omitempty"`
-	GatewayIp      string                 `protobuf:"bytes,7,opt,name=gateway_ip,json=gatewayIp,proto3" json:"gateway_ip,omitempty"`
 	Capacity       *Capacity              `protobuf:"bytes,5,opt,name=capacity,proto3" json:"capacity,omitempty"`
-	Error          *Error                 `protobuf:"bytes,6,opt,name=error,proto3" json:"error,omitempty"`
+	GatewayIp      string                 `protobuf:"bytes,6,opt,name=gateway_ip,json=gatewayIp,proto3" json:"gateway_ip,omitempty"`
+	Error          *Error                 `protobuf:"bytes,7,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -485,18 +493,18 @@ func (x *AgentResponse) GetGatewayAddress() string {
 	return ""
 }
 
-func (x *AgentResponse) GetGatewayIp() string {
-	if x != nil {
-		return x.GatewayIp
-	}
-	return ""
-}
-
 func (x *AgentResponse) GetCapacity() *Capacity {
 	if x != nil {
 		return x.Capacity
 	}
 	return nil
+}
+
+func (x *AgentResponse) GetGatewayIp() string {
+	if x != nil {
+		return x.GatewayIp
+	}
+	return ""
 }
 
 func (x *AgentResponse) GetError() *Error {
@@ -733,14 +741,15 @@ const file_proto_maps_proto_rawDesc = "" +
 	"\x03cpu\x18\x01 \x01(\x05R\x03cpu\x12\x16\n" +
 	"\x06memory\x18\x02 \x01(\x05R\x06memory\x12\x18\n" +
 	"\astorage\x18\x03 \x01(\x05R\astorage\x12\x1c\n" +
-	"\tbandwidth\x18\x04 \x01(\x05R\tbandwidth\"\x9b\x01\n" +
+	"\tbandwidth\x18\x04 \x01(\x05R\tbandwidth\"\xc7\x01\n" +
 	"\x0fGatewayResponse\x12\x1d\n" +
 	"\n" +
 	"gateway_id\x18\x01 \x01(\tR\tgatewayId\x12\x1d\n" +
 	"\n" +
 	"gateway_ip\x18\x02 \x01(\tR\tgatewayIp\x12'\n" +
-	"\x0fgateway_address\x18\x03 \x01(\tR\x0egatewayAddress\x12!\n" +
-	"\x05error\x18\x04 \x01(\v2\v.maps.ErrorR\x05error\"\xa4\x01\n" +
+	"\x0fgateway_address\x18\x03 \x01(\tR\x0egatewayAddress\x12*\n" +
+	"\bcapacity\x18\x04 \x01(\v2\x0e.maps.CapacityR\bcapacity\x12!\n" +
+	"\x05error\x18\x05 \x01(\v2\v.maps.ErrorR\x05error\"\xa4\x01\n" +
 	"\x16AgentConnectionRequest\x12!\n" +
 	"\fagent_domain\x18\x01 \x01(\tR\vagentDomain\x120\n" +
 	"\x14verifiable_cred_hash\x18\x02 \x01(\tR\x12verifiableCredHash\x12\x1d\n" +
@@ -752,11 +761,11 @@ const file_proto_maps_proto_rawDesc = "" +
 	"\fagent_domain\x18\x02 \x01(\tR\vagentDomain\x12\x1d\n" +
 	"\n" +
 	"gateway_id\x18\x03 \x01(\tR\tgatewayId\x12'\n" +
-	"\x0fgateway_address\x18\x04 \x01(\tR\x0egatewayAddress\x12\x1d\n" +
+	"\x0fgateway_address\x18\x04 \x01(\tR\x0egatewayAddress\x12*\n" +
+	"\bcapacity\x18\x05 \x01(\v2\x0e.maps.CapacityR\bcapacity\x12\x1d\n" +
 	"\n" +
-	"gateway_ip\x18\a \x01(\tR\tgatewayIp\x12*\n" +
-	"\bcapacity\x18\x05 \x01(\v2\x0e.maps.CapacityR\bcapacity\x12!\n" +
-	"\x05error\x18\x06 \x01(\v2\v.maps.ErrorR\x05error\"*\n" +
+	"gateway_ip\x18\x06 \x01(\tR\tgatewayIp\x12!\n" +
+	"\x05error\x18\a \x01(\v2\v.maps.ErrorR\x05error\"*\n" +
 	"\x10GatewayHandshake\x12\x16\n" +
 	"\x06region\x18\x01 \x01(\tR\x06region\"h\n" +
 	"\x10MultipleGateways\x121\n" +
@@ -813,24 +822,25 @@ var file_proto_maps_proto_goTypes = []any{
 var file_proto_maps_proto_depIdxs = []int32{
 	0,  // 0: maps.Error.code:type_name -> maps.ErrorCode
 	3,  // 1: maps.GatewayPutRequest.capacity:type_name -> maps.Capacity
-	1,  // 2: maps.GatewayResponse.error:type_name -> maps.Error
-	3,  // 3: maps.AgentResponse.capacity:type_name -> maps.Capacity
-	1,  // 4: maps.AgentResponse.error:type_name -> maps.Error
-	4,  // 5: maps.MultipleGateways.gateways:type_name -> maps.GatewayResponse
-	1,  // 6: maps.MultipleGateways.error:type_name -> maps.Error
-	2,  // 7: maps.Maps.RegisterGateway:input_type -> maps.GatewayPutRequest
-	5,  // 8: maps.Maps.RegisterAgent:input_type -> maps.AgentConnectionRequest
-	7,  // 9: maps.Maps.ResolveGatewayForAgent:input_type -> maps.GatewayHandshake
-	9,  // 10: maps.Maps.ResolveGatewayForProxy:input_type -> maps.GatewayProxy
-	4,  // 11: maps.Maps.RegisterGateway:output_type -> maps.GatewayResponse
-	6,  // 12: maps.Maps.RegisterAgent:output_type -> maps.AgentResponse
-	8,  // 13: maps.Maps.ResolveGatewayForAgent:output_type -> maps.MultipleGateways
-	4,  // 14: maps.Maps.ResolveGatewayForProxy:output_type -> maps.GatewayResponse
-	11, // [11:15] is the sub-list for method output_type
-	7,  // [7:11] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	3,  // 2: maps.GatewayResponse.capacity:type_name -> maps.Capacity
+	1,  // 3: maps.GatewayResponse.error:type_name -> maps.Error
+	3,  // 4: maps.AgentResponse.capacity:type_name -> maps.Capacity
+	1,  // 5: maps.AgentResponse.error:type_name -> maps.Error
+	4,  // 6: maps.MultipleGateways.gateways:type_name -> maps.GatewayResponse
+	1,  // 7: maps.MultipleGateways.error:type_name -> maps.Error
+	2,  // 8: maps.Maps.RegisterGateway:input_type -> maps.GatewayPutRequest
+	5,  // 9: maps.Maps.RegisterAgent:input_type -> maps.AgentConnectionRequest
+	7,  // 10: maps.Maps.ResolveGatewayForAgent:input_type -> maps.GatewayHandshake
+	9,  // 11: maps.Maps.ResolveGatewayForProxy:input_type -> maps.GatewayProxy
+	4,  // 12: maps.Maps.RegisterGateway:output_type -> maps.GatewayResponse
+	6,  // 13: maps.Maps.RegisterAgent:output_type -> maps.AgentResponse
+	8,  // 14: maps.Maps.ResolveGatewayForAgent:output_type -> maps.MultipleGateways
+	4,  // 15: maps.Maps.ResolveGatewayForProxy:output_type -> maps.GatewayResponse
+	12, // [12:16] is the sub-list for method output_type
+	8,  // [8:12] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_proto_maps_proto_init() }

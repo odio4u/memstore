@@ -2,6 +2,7 @@ package maps
 
 import (
 	"context"
+	"fmt"
 
 	mapper "github.com/Purple-House/memstore/registry/proto"
 )
@@ -16,6 +17,12 @@ func (rpc *RPCMap) ResolveGatewayForAgent(ctx context.Context, req *mapper.Gatew
 			GatewayId:      gateway.GatewayID,
 			GatewayIp:      gateway.GatewayIP,
 			GatewayAddress: gateway.GatewayAddress,
+			Capacity: &mapper.Capacity{
+				Cpu:       gateway.Capacity.CPU,
+				Memory:    gateway.Capacity.Memory,
+				Storage:   gateway.Capacity.Storage,
+				Bandwidth: gateway.Capacity.Bandwidth,
+			},
 		})
 	}
 
@@ -41,11 +48,19 @@ func (rpc *RPCMap) ResolveGatewayForProxy(ctx context.Context, req *mapper.Gatew
 		req.Region,
 	)
 
+	fmt.Println("ResolveGatewayForProxy capacity:", gateway.Capacity.CPU, gateway.Capacity.Memory, gateway.Capacity.Storage)
+
 	if exist {
 		return &mapper.GatewayResponse{
 			GatewayId:      gateway.GatewayID,
 			GatewayIp:      gateway.GatewayIP,
 			GatewayAddress: gateway.GatewayAddress,
+			Capacity: &mapper.Capacity{
+				Cpu:       gateway.Capacity.CPU,
+				Memory:    gateway.Capacity.Memory,
+				Storage:   gateway.Capacity.Storage,
+				Bandwidth: gateway.Capacity.Bandwidth,
+			},
 		}, nil
 	}
 	return &mapper.GatewayResponse{
