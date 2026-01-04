@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/sha256"
+	"crypto/tls"
 	"crypto/x509"
 	"encoding/hex"
 	"encoding/pem"
@@ -22,6 +23,7 @@ import (
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
 )
 
@@ -65,35 +67,35 @@ func certFingurePrint() error {
 func main() {
 	fmt.Println("Registry Service for Ingress Tunnel")
 
-	// cert, err := tls.LoadX509KeyPair("certs/server.pem", "certs/server-key.pem")
-	// if err != nil {
-	// 	log.Fatalf("failed to load server certificate: %v", err)
-	// }
+	cert, err := tls.LoadX509KeyPair("certs/server.pem", "certs/server-key.pem")
+	if err != nil {
+		log.Fatalf("failed to load server certificate: %v", err)
+	}
 
-	// servertLs := &tls.Config{
-	// 	Certificates: []tls.Certificate{cert},
-	// 	MinVersion:   tls.VersionTLS13,
-	// 	MaxVersion:   tls.VersionTLS13,
+	servertLs := &tls.Config{
+		Certificates: []tls.Certificate{cert},
+		MinVersion:   tls.VersionTLS13,
+		MaxVersion:   tls.VersionTLS13,
 
-	// 	CipherSuites: []uint16{
-	// 		tls.TLS_AES_128_GCM_SHA256,
-	// 		tls.TLS_AES_256_GCM_SHA384,
-	// 	},
+		CipherSuites: []uint16{
+			tls.TLS_AES_128_GCM_SHA256,
+			tls.TLS_AES_256_GCM_SHA384,
+		},
 
-	// 	SessionTicketsDisabled:   true,
-	// 	PreferServerCipherSuites: true,
+		SessionTicketsDisabled:   true,
+		PreferServerCipherSuites: true,
 
-	// 	CurvePreferences: []tls.CurveID{
-	// 		tls.X25519,
-	// 		tls.CurveP256,
-	// 	},
-	// 	Renegotiation: tls.RenegotiateNever,
-	// }
+		CurvePreferences: []tls.CurveID{
+			tls.X25519,
+			tls.CurveP256,
+		},
+		Renegotiation: tls.RenegotiateNever,
+	}
 
-	// err = certFingurePrint()
-	// if err != nil {
-	// 	log.Fatalf("Failed to print certificate fingerprint: %v", err)
-	// }
+	err = certFingurePrint()
+	if err != nil {
+		log.Fatalf("Failed to print certificate fingerprint: %v", err)
+	}
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -121,7 +123,7 @@ func main() {
 	defer waler.Close()
 
 	s := grpc.NewServer(
-		// grpc.Creds(credentials.NewTLS(servertLs)),
+		grpc.Creds(credentials.NewTLS(servertLs)),
 		grpc.UnaryInterceptor(grpc_recovery.UnaryServerInterceptor(recoveryOpts...)),
 		grpc.StreamInterceptor(grpc_recovery.StreamServerInterceptor(recoveryOpts...)),
 	)
