@@ -15,7 +15,7 @@ func (rpc *RPCMap) RegisterAgent(ctx context.Context, req *mapper.AgentConnectio
 		AgentID:     uuid.New().String(),
 	}
 
-	agent, _, err := rpc.MemStore.AddAgent("global", agentData)
+	agent, _, err := rpc.MemStore.AddAgent(req.Region, agentData)
 	if err != nil {
 		return &mapper.AgentResponse{
 			Error: &mapper.Error{

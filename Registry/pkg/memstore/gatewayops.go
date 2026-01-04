@@ -15,21 +15,21 @@ func (mem *MemStore) AddGateway(region string, gateway *GatewayData) (GatewayDat
 	gatewayAddress := fmt.Sprintf("%s:%d", gateway.GatewayIP, gateway.GatewayPort)
 	gateway.GatewayAddress = gatewayAddress
 
-	gatewayData, exist := data.Gateways[gateway.GatewayAddress]
+	gatewayData, exist := data.Gateways[gateway.GatewayID]
 	if exist {
 		// Remove old rank item
 		oldRank := gatewayData.Capacity.Rank()
 		data.ranked.Delete(&GatewayRankItem{
 			Rank: oldRank,
-			ID:   gateway.GatewayAddress,
+			ID:   gateway.GatewayID,
 		})
 		// Update gateway data
 		gateway.GatewayID = gatewayData.GatewayID
 	}
-	data.Gateways[gateway.GatewayAddress] = gateway
+	data.Gateways[gateway.GatewayID] = gateway
 	data.ranked.ReplaceOrInsert(&GatewayRankItem{
 		Rank: gateway.Capacity.Rank(),
-		ID:   gateway.GatewayAddress,
+		ID:   gateway.GatewayID,
 	})
 
 	fmt.Printf("Added gateway %s in region %s\n", gateway.GatewayAddress, region)

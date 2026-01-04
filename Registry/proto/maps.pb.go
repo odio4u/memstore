@@ -350,6 +350,7 @@ type AgentConnectionRequest struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	AgentDomain        string                 `protobuf:"bytes,1,opt,name=agent_domain,json=agentDomain,proto3" json:"agent_domain,omitempty"`
 	VerifiableCredHash string                 `protobuf:"bytes,2,opt,name=verifiable_cred_hash,json=verifiableCredHash,proto3" json:"verifiable_cred_hash,omitempty"`
+	Region             string                 `protobuf:"bytes,3,opt,name=region,proto3" json:"region,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -394,6 +395,13 @@ func (x *AgentConnectionRequest) GetAgentDomain() string {
 func (x *AgentConnectionRequest) GetVerifiableCredHash() string {
 	if x != nil {
 		return x.VerifiableCredHash
+	}
+	return ""
+}
+
+func (x *AgentConnectionRequest) GetRegion() string {
+	if x != nil {
+		return x.Region
 	}
 	return ""
 }
@@ -784,10 +792,11 @@ const file_proto_maps_proto_rawDesc = "" +
 	"\n" +
 	"gateway_ip\x18\x02 \x01(\tR\tgatewayIp\x12'\n" +
 	"\x0fgateway_address\x18\x03 \x01(\tR\x0egatewayAddress\x12!\n" +
-	"\x05error\x18\x04 \x01(\v2\v.maps.ErrorR\x05error\"m\n" +
+	"\x05error\x18\x04 \x01(\v2\v.maps.ErrorR\x05error\"\x85\x01\n" +
 	"\x16AgentConnectionRequest\x12!\n" +
 	"\fagent_domain\x18\x01 \x01(\tR\vagentDomain\x120\n" +
-	"\x14verifiable_cred_hash\x18\x02 \x01(\tR\x12verifiableCredHash\"\xaf\x01\n" +
+	"\x14verifiable_cred_hash\x18\x02 \x01(\tR\x12verifiableCredHash\x12\x16\n" +
+	"\x06region\x18\x03 \x01(\tR\x06region\"\xaf\x01\n" +
 	"\fAgentConnect\x12\x1d\n" +
 	"\n" +
 	"gateway_ip\x18\x01 \x01(\tR\tgatewayIp\x12\x1d\n" +

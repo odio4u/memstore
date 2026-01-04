@@ -56,6 +56,7 @@ message GatewayResponse {
 message AgentConnectionRequest {
     string agent_domain = 1;
     string verifiable_cred_hash = 2;
+    string region = 3;
 }
 
 message AgentConnect {
