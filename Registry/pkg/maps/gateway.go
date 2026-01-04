@@ -2,12 +2,12 @@ package maps
 
 import (
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
 
 	memstore "github.com/Purple-House/memstore/registry/pkg/memstore"
 	mapper "github.com/Purple-House/memstore/registry/proto"
 	walpb "github.com/Purple-House/memstore/registry/wal/proto"
-
-	"github.com/google/uuid"
 )
 
 func (rpc *RPCMap) RegisterGateway(ctx context.Context, req *mapper.GatewayPutRequest) (*mapper.GatewayResponse, error) {
@@ -21,9 +21,15 @@ func (rpc *RPCMap) RegisterGateway(ctx context.Context, req *mapper.GatewayPutRe
 		}, nil
 	}
 
+	identityBytes := sha256.Sum256([]byte(
+		req.VerifiableCredHash + "|" + req.GatewayIp,
+	))
+
+	identity := hex.EncodeToString(identityBytes[:])
+
 	gatewayData := &memstore.GatewayData{
 		GatewayIP:      req.GatewayIp,
-		GatewayID:      uuid.New().String(),
+		GatewayID:      identity,
 		GatewayPort:    req.GatewayPort,
 		VerifiableHash: req.VerifiableCredHash,
 		Capacity: memstore.Capacity{

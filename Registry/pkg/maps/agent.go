@@ -25,9 +25,11 @@ func (rpc *RPCMap) RegisterAgent(ctx context.Context, req *mapper.AgentConnectio
 		}, nil
 	}
 	return &mapper.AgentResponse{
-		AgentId:     agent.AgentID,
-		AgentDomain: agent.AgentDomain,
-		Error:       nil,
+		AgentId:        agent.AgentID,
+		AgentDomain:    agent.AgentDomain,
+		GatewayId:      agent.GatewayID,
+		GatewayAddress: agent.GatewayAddress,
+		Error:          nil,
 	}, nil
 }
 

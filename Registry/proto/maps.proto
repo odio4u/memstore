@@ -71,8 +71,9 @@ message AgentResponse {
     string agent_id = 1;
     string agent_domain = 2;
     string gateway_id = 3;
-    Capacity capacity = 4;
-    Error error = 5;
+    string gateway_address = 4;
+    Capacity capacity = 5;
+    Error error = 6;
 }
 
 message GatewayHandshake {

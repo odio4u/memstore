@@ -483,14 +483,15 @@ func (x *AgentConnect) GetGatewayAddress() string {
 }
 
 type AgentResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	AgentId       string                 `protobuf:"bytes,1,opt,name=agent_id,json=agentId,proto3" json:"agent_id,omitempty"`
-	AgentDomain   string                 `protobuf:"bytes,2,opt,name=agent_domain,json=agentDomain,proto3" json:"agent_domain,omitempty"`
-	GatewayId     string                 `protobuf:"bytes,3,opt,name=gateway_id,json=gatewayId,proto3" json:"gateway_id,omitempty"`
-	Capacity      *Capacity              `protobuf:"bytes,4,opt,name=capacity,proto3" json:"capacity,omitempty"`
-	Error         *Error                 `protobuf:"bytes,5,opt,name=error,proto3" json:"error,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	AgentId        string                 `protobuf:"bytes,1,opt,name=agent_id,json=agentId,proto3" json:"agent_id,omitempty"`
+	AgentDomain    string                 `protobuf:"bytes,2,opt,name=agent_domain,json=agentDomain,proto3" json:"agent_domain,omitempty"`
+	GatewayId      string                 `protobuf:"bytes,3,opt,name=gateway_id,json=gatewayId,proto3" json:"gateway_id,omitempty"`
+	GatewayAddress string                 `protobuf:"bytes,4,opt,name=gateway_address,json=gatewayAddress,proto3" json:"gateway_address,omitempty"`
+	Capacity       *Capacity              `protobuf:"bytes,5,opt,name=capacity,proto3" json:"capacity,omitempty"`
+	Error          *Error                 `protobuf:"bytes,6,opt,name=error,proto3" json:"error,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *AgentResponse) Reset() {
@@ -540,6 +541,13 @@ func (x *AgentResponse) GetAgentDomain() string {
 func (x *AgentResponse) GetGatewayId() string {
 	if x != nil {
 		return x.GatewayId
+	}
+	return ""
+}
+
+func (x *AgentResponse) GetGatewayAddress() string {
+	if x != nil {
+		return x.GatewayAddress
 	}
 	return ""
 }
@@ -804,14 +812,15 @@ const file_proto_maps_proto_rawDesc = "" +
 	"gateway_id\x18\x02 \x01(\tR\tgatewayId\x12\x16\n" +
 	"\x06region\x18\x03 \x01(\tR\x06region\x12!\n" +
 	"\fagent_domain\x18\x04 \x01(\tR\vagentDomain\x12&\n" +
-	"\x0eGatewayAddress\x18\x05 \x01(\tR\x0eGatewayAddress\"\xbb\x01\n" +
+	"\x0eGatewayAddress\x18\x05 \x01(\tR\x0eGatewayAddress\"\xe4\x01\n" +
 	"\rAgentResponse\x12\x19\n" +
 	"\bagent_id\x18\x01 \x01(\tR\aagentId\x12!\n" +
 	"\fagent_domain\x18\x02 \x01(\tR\vagentDomain\x12\x1d\n" +
 	"\n" +
-	"gateway_id\x18\x03 \x01(\tR\tgatewayId\x12*\n" +
-	"\bcapacity\x18\x04 \x01(\v2\x0e.maps.CapacityR\bcapacity\x12!\n" +
-	"\x05error\x18\x05 \x01(\v2\v.maps.ErrorR\x05error\"*\n" +
+	"gateway_id\x18\x03 \x01(\tR\tgatewayId\x12'\n" +
+	"\x0fgateway_address\x18\x04 \x01(\tR\x0egatewayAddress\x12*\n" +
+	"\bcapacity\x18\x05 \x01(\v2\x0e.maps.CapacityR\bcapacity\x12!\n" +
+	"\x05error\x18\x06 \x01(\v2\v.maps.ErrorR\x05error\"*\n" +
 	"\x10GatewayHandshake\x12\x16\n" +
 	"\x06region\x18\x01 \x01(\tR\x06region\"h\n" +
 	"\x10MultipleGateways\x121\n" +
