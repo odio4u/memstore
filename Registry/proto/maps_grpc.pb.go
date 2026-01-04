@@ -23,7 +23,6 @@ const (
 	Maps_RegisterAgent_FullMethodName          = "/maps.Maps/RegisterAgent"
 	Maps_ResolveGatewayForAgent_FullMethodName = "/maps.Maps/ResolveGatewayForAgent"
 	Maps_ResolveGatewayForProxy_FullMethodName = "/maps.Maps/ResolveGatewayForProxy"
-	Maps_ConnectAgentTogateway_FullMethodName  = "/maps.Maps/ConnectAgentTogateway"
 )
 
 // MapsClient is the client API for Maps service.
@@ -36,7 +35,6 @@ type MapsClient interface {
 	RegisterAgent(ctx context.Context, in *AgentConnectionRequest, opts ...grpc.CallOption) (*AgentResponse, error)
 	ResolveGatewayForAgent(ctx context.Context, in *GatewayHandshake, opts ...grpc.CallOption) (*MultipleGateways, error)
 	ResolveGatewayForProxy(ctx context.Context, in *GatewayProxy, opts ...grpc.CallOption) (*GatewayResponse, error)
-	ConnectAgentTogateway(ctx context.Context, in *AgentConnect, opts ...grpc.CallOption) (*AgentResponse, error)
 }
 
 type mapsClient struct {
@@ -87,16 +85,6 @@ func (c *mapsClient) ResolveGatewayForProxy(ctx context.Context, in *GatewayProx
 	return out, nil
 }
 
-func (c *mapsClient) ConnectAgentTogateway(ctx context.Context, in *AgentConnect, opts ...grpc.CallOption) (*AgentResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AgentResponse)
-	err := c.cc.Invoke(ctx, Maps_ConnectAgentTogateway_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // MapsServer is the server API for Maps service.
 // All implementations must embed UnimplementedMapsServer
 // for forward compatibility.
@@ -107,7 +95,6 @@ type MapsServer interface {
 	RegisterAgent(context.Context, *AgentConnectionRequest) (*AgentResponse, error)
 	ResolveGatewayForAgent(context.Context, *GatewayHandshake) (*MultipleGateways, error)
 	ResolveGatewayForProxy(context.Context, *GatewayProxy) (*GatewayResponse, error)
-	ConnectAgentTogateway(context.Context, *AgentConnect) (*AgentResponse, error)
 	mustEmbedUnimplementedMapsServer()
 }
 
@@ -129,9 +116,6 @@ func (UnimplementedMapsServer) ResolveGatewayForAgent(context.Context, *GatewayH
 }
 func (UnimplementedMapsServer) ResolveGatewayForProxy(context.Context, *GatewayProxy) (*GatewayResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ResolveGatewayForProxy not implemented")
-}
-func (UnimplementedMapsServer) ConnectAgentTogateway(context.Context, *AgentConnect) (*AgentResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ConnectAgentTogateway not implemented")
 }
 func (UnimplementedMapsServer) mustEmbedUnimplementedMapsServer() {}
 func (UnimplementedMapsServer) testEmbeddedByValue()              {}
@@ -226,24 +210,6 @@ func _Maps_ResolveGatewayForProxy_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Maps_ConnectAgentTogateway_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AgentConnect)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MapsServer).ConnectAgentTogateway(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Maps_ConnectAgentTogateway_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MapsServer).ConnectAgentTogateway(ctx, req.(*AgentConnect))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // Maps_ServiceDesc is the grpc.ServiceDesc for Maps service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -266,10 +232,6 @@ var Maps_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ResolveGatewayForProxy",
 			Handler:    _Maps_ResolveGatewayForProxy_Handler,
-		},
-		{
-			MethodName: "ConnectAgentTogateway",
-			Handler:    _Maps_ConnectAgentTogateway_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
