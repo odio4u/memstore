@@ -8,6 +8,7 @@ import (
 
 	memstore "github.com/Purple-House/memstore/registry/pkg/memstore"
 	mapper "github.com/Purple-House/memstore/registry/proto"
+	walpb "github.com/Purple-House/memstore/registry/wal/proto"
 )
 
 func (rpc *RPCMap) RegisterAgent(ctx context.Context, req *mapper.AgentConnectionRequest) (*mapper.AgentResponse, error) {
@@ -45,7 +46,18 @@ func (rpc *RPCMap) RegisterAgent(ctx context.Context, req *mapper.AgentConnectio
 		}, nil
 	}
 
-	fmt.Println("fnish the agent")
+	err = rpc.WALer.Append(&walpb.WalRecord{
+		Op: walpb.Operation_OP_PUT_AGENT,
+		Agent: &walpb.AgentConnectionRequest{
+			VerifiableCredHash: agent.VerifiableHash,
+			AgentDomain:        agent.AgentDomain,
+			GatewayId:          agent.GatewayID,
+			Region:             req.Region,
+			GatewayAddress:     gateway.GatewayAddress,
+			AgentId:            agent.AgentID,
+		},
+	})
+
 	return &mapper.AgentResponse{
 		AgentId:        agent.AgentID,
 		AgentDomain:    agent.AgentDomain,

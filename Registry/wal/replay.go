@@ -12,7 +12,6 @@ import (
 
 	memstore "github.com/Purple-House/memstore/registry/pkg/memstore"
 	walpb "github.com/Purple-House/memstore/registry/wal/proto"
-	"github.com/google/uuid"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -105,8 +104,13 @@ func ApplyRecord(store *memstore.MemStore, rec *walpb.WalRecord) error {
 
 	case walpb.Operation_OP_PUT_AGENT:
 		region := rec.Agent.Region
+		identityBytes := sha256.Sum256([]byte(
+			rec.Agent.VerifiableCredHash + "|" + rec.Agent.AgentDomain,
+		))
+
+		identity := hex.EncodeToString(identityBytes[:])
 		agentData := &memstore.AgentData{
-			AgentID:        uuid.NewString(),
+			AgentID:        identity,
 			AgentDomain:    rec.Agent.AgentDomain,
 			GatewayAddress: rec.Agent.GatewayAddress,
 			GatewayID:      rec.Agent.GatewayId,

@@ -28,5 +28,7 @@ func (mem *MemStore) AddAgent(region string, agent *AgentData) (*AgentData, *Gat
 	agent.GatewayAddress = gateway.GatewayAddress
 
 	data.Agents[agent.AgentDomain] = agent
+
+	fmt.Println("Added the agent to gateway", agent.AgentID, agent.GatewayID)
 	return agent, gateway, nil
 }
