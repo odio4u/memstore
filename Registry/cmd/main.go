@@ -1,11 +1,6 @@
 package main
 
 import (
-	"crypto/sha256"
-	"crypto/tls"
-	"crypto/x509"
-	"encoding/hex"
-	"encoding/pem"
 	"fmt"
 	"log"
 	"net"
@@ -23,7 +18,6 @@ import (
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
 )
 
@@ -40,62 +34,62 @@ func gracefulShutdown(server *grpc.Server) {
 
 }
 
-func certFingurePrint() error {
-	permfile := "certs/server.pem" // replace with your file path
-	certPEM, err := os.ReadFile(permfile)
-	if err != nil {
-		return fmt.Errorf("failed to read certificate file: %v", err)
-	}
+// func certFingurePrint() error {
+// 	permfile := "certs/server.pem" // replace with your file path
+// 	certPEM, err := os.ReadFile(permfile)
+// 	if err != nil {
+// 		return fmt.Errorf("failed to read certificate file: %v", err)
+// 	}
 
-	block, _ := pem.Decode(certPEM)
+// 	block, _ := pem.Decode(certPEM)
 
-	if block == nil || block.Type != "CERTIFICATE" {
-		return fmt.Errorf("failed to decode PEM block containing certificate")
-	}
+// 	if block == nil || block.Type != "CERTIFICATE" {
+// 		return fmt.Errorf("failed to decode PEM block containing certificate")
+// 	}
 
-	cert, err := x509.ParseCertificate(block.Bytes)
-	if err != nil {
-		return err
-	}
+// 	cert, err := x509.ParseCertificate(block.Bytes)
+// 	if err != nil {
+// 		return err
+// 	}
 
-	sum := sha256.Sum256(cert.Raw)
-	fingerprint := hex.EncodeToString(sum[:])
-	log.Printf("Client CERT fingerprint (SHA256): %s", fingerprint)
-	return nil
-}
+// 	sum := sha256.Sum256(cert.Raw)
+// 	fingerprint := hex.EncodeToString(sum[:])
+// 	log.Printf("Client CERT fingerprint (SHA256): %s", fingerprint)
+// 	return nil
+// }
 
 func main() {
 	fmt.Println("Registry Service for Ingress Tunnel")
 
-	cert, err := tls.LoadX509KeyPair("certs/server.pem", "certs/server-key.pem")
-	if err != nil {
-		log.Fatalf("failed to load server certificate: %v", err)
-	}
+	// cert, err := tls.LoadX509KeyPair("certs/server.pem", "certs/server-key.pem")
+	// if err != nil {
+	// 	log.Fatalf("failed to load server certificate: %v", err)
+	// }
 
-	servertLs := &tls.Config{
-		Certificates: []tls.Certificate{cert},
-		MinVersion:   tls.VersionTLS13,
-		MaxVersion:   tls.VersionTLS13,
+	// servertLs := &tls.Config{
+	// 	Certificates: []tls.Certificate{cert},
+	// 	MinVersion:   tls.VersionTLS13,
+	// 	MaxVersion:   tls.VersionTLS13,
 
-		CipherSuites: []uint16{
-			tls.TLS_AES_128_GCM_SHA256,
-			tls.TLS_AES_256_GCM_SHA384,
-		},
+	// 	CipherSuites: []uint16{
+	// 		tls.TLS_AES_128_GCM_SHA256,
+	// 		tls.TLS_AES_256_GCM_SHA384,
+	// 	},
 
-		SessionTicketsDisabled:   true,
-		PreferServerCipherSuites: true,
+	// 	SessionTicketsDisabled:   true,
+	// 	PreferServerCipherSuites: true,
 
-		CurvePreferences: []tls.CurveID{
-			tls.X25519,
-			tls.CurveP256,
-		},
-		Renegotiation: tls.RenegotiateNever,
-	}
+	// 	CurvePreferences: []tls.CurveID{
+	// 		tls.X25519,
+	// 		tls.CurveP256,
+	// 	},
+	// 	Renegotiation: tls.RenegotiateNever,
+	// }
 
-	err = certFingurePrint()
-	if err != nil {
-		log.Fatalf("Failed to print certificate fingerprint: %v", err)
-	}
+	// err = certFingurePrint()
+	// if err != nil {
+	// 	log.Fatalf("Failed to print certificate fingerprint: %v", err)
+	// }
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -123,7 +117,7 @@ func main() {
 	defer waler.Close()
 
 	s := grpc.NewServer(
-		grpc.Creds(credentials.NewTLS(servertLs)),
+		// grpc.Creds(credentials.NewTLS(servertLs)),
 		grpc.UnaryInterceptor(grpc_recovery.UnaryServerInterceptor(recoveryOpts...)),
 		grpc.StreamInterceptor(grpc_recovery.StreamServerInterceptor(recoveryOpts...)),
 	)

@@ -27,6 +27,7 @@ message GatewayPutRequest {
     Capacity capacity = 5;
     string gateway_id = 6;
     string verifiable_cred_hash = 7;
+    int32 wss_port = 8;
 }
 
 message AgentConnectionRequest {

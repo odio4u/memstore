@@ -13,10 +13,13 @@ func (rpc *RPCMap) ResolveGatewayForAgent(ctx context.Context, req *mapper.Gatew
 
 	var gatewayResponses []*mapper.GatewayResponse
 	for _, gateway := range gateways {
+		fmt.Println("gateway details:", gateway.GatewayID, gateway.Wssport)
 		gatewayResponses = append(gatewayResponses, &mapper.GatewayResponse{
 			GatewayId:      gateway.GatewayID,
 			GatewayIp:      gateway.GatewayIP,
 			GatewayAddress: gateway.GatewayAddress,
+			GatewayPort:    gateway.GatewayPort,
+			WssPort:        gateway.Wssport,
 			Capacity: &mapper.Capacity{
 				Cpu:       gateway.Capacity.CPU,
 				Memory:    gateway.Capacity.Memory,
@@ -55,6 +58,8 @@ func (rpc *RPCMap) ResolveGatewayForProxy(ctx context.Context, req *mapper.Gatew
 			GatewayId:      gateway.GatewayID,
 			GatewayIp:      gateway.GatewayIP,
 			GatewayAddress: gateway.GatewayAddress,
+			GatewayPort:    gateway.GatewayPort,
+			WssPort:        gateway.Wssport,
 			Capacity:       &mapper.Capacity{},
 			Error:          nil,
 		}, nil
