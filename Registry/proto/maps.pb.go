@@ -138,7 +138,8 @@ type GatewayPutRequest struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	Region             string                 `protobuf:"bytes,1,opt,name=region,proto3" json:"region,omitempty"`
 	GatewayIp          string                 `protobuf:"bytes,2,opt,name=gateway_ip,json=gatewayIp,proto3" json:"gateway_ip,omitempty"`
-	GatewayPort        int32                  `protobuf:"varint,4,opt,name=gateway_port,json=gatewayPort,proto3" json:"gateway_port,omitempty"`
+	GatewayPort        int32                  `protobuf:"varint,3,opt,name=gateway_port,json=gatewayPort,proto3" json:"gateway_port,omitempty"`
+	WssPort            int32                  `protobuf:"varint,4,opt,name=wss_port,json=wssPort,proto3" json:"wss_port,omitempty"`
 	Capacity           *Capacity              `protobuf:"bytes,5,opt,name=capacity,proto3" json:"capacity,omitempty"`
 	VerifiableCredHash string                 `protobuf:"bytes,6,opt,name=verifiable_cred_hash,json=verifiableCredHash,proto3" json:"verifiable_cred_hash,omitempty"`
 	unknownFields      protoimpl.UnknownFields
@@ -192,6 +193,13 @@ func (x *GatewayPutRequest) GetGatewayIp() string {
 func (x *GatewayPutRequest) GetGatewayPort() int32 {
 	if x != nil {
 		return x.GatewayPort
+	}
+	return 0
+}
+
+func (x *GatewayPutRequest) GetWssPort() int32 {
+	if x != nil {
+		return x.WssPort
 	}
 	return 0
 }
@@ -283,8 +291,10 @@ type GatewayResponse struct {
 	GatewayId      string                 `protobuf:"bytes,1,opt,name=gateway_id,json=gatewayId,proto3" json:"gateway_id,omitempty"`
 	GatewayIp      string                 `protobuf:"bytes,2,opt,name=gateway_ip,json=gatewayIp,proto3" json:"gateway_ip,omitempty"`
 	GatewayAddress string                 `protobuf:"bytes,3,opt,name=gateway_address,json=gatewayAddress,proto3" json:"gateway_address,omitempty"`
-	Capacity       *Capacity              `protobuf:"bytes,4,opt,name=capacity,proto3" json:"capacity,omitempty"`
-	Error          *Error                 `protobuf:"bytes,5,opt,name=error,proto3" json:"error,omitempty"`
+	GatewayPort    int32                  `protobuf:"varint,4,opt,name=gateway_port,json=gatewayPort,proto3" json:"gateway_port,omitempty"`
+	WssPort        int32                  `protobuf:"varint,5,opt,name=wss_port,json=wssPort,proto3" json:"wss_port,omitempty"`
+	Capacity       *Capacity              `protobuf:"bytes,6,opt,name=capacity,proto3" json:"capacity,omitempty"`
+	Error          *Error                 `protobuf:"bytes,7,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -338,6 +348,20 @@ func (x *GatewayResponse) GetGatewayAddress() string {
 		return x.GatewayAddress
 	}
 	return ""
+}
+
+func (x *GatewayResponse) GetGatewayPort() int32 {
+	if x != nil {
+		return x.GatewayPort
+	}
+	return 0
+}
+
+func (x *GatewayResponse) GetWssPort() int32 {
+	if x != nil {
+		return x.WssPort
+	}
+	return 0
 }
 
 func (x *GatewayResponse) GetCapacity() *Capacity {
@@ -428,9 +452,11 @@ type AgentResponse struct {
 	AgentDomain    string                 `protobuf:"bytes,2,opt,name=agent_domain,json=agentDomain,proto3" json:"agent_domain,omitempty"`
 	GatewayId      string                 `protobuf:"bytes,3,opt,name=gateway_id,json=gatewayId,proto3" json:"gateway_id,omitempty"`
 	GatewayAddress string                 `protobuf:"bytes,4,opt,name=gateway_address,json=gatewayAddress,proto3" json:"gateway_address,omitempty"`
-	Capacity       *Capacity              `protobuf:"bytes,5,opt,name=capacity,proto3" json:"capacity,omitempty"`
-	GatewayIp      string                 `protobuf:"bytes,6,opt,name=gateway_ip,json=gatewayIp,proto3" json:"gateway_ip,omitempty"`
-	Error          *Error                 `protobuf:"bytes,7,opt,name=error,proto3" json:"error,omitempty"`
+	GatewayPort    int32                  `protobuf:"varint,5,opt,name=gateway_port,json=gatewayPort,proto3" json:"gateway_port,omitempty"`
+	WssPort        int32                  `protobuf:"varint,6,opt,name=wss_port,json=wssPort,proto3" json:"wss_port,omitempty"`
+	Capacity       *Capacity              `protobuf:"bytes,7,opt,name=capacity,proto3" json:"capacity,omitempty"`
+	GatewayIp      string                 `protobuf:"bytes,8,opt,name=gateway_ip,json=gatewayIp,proto3" json:"gateway_ip,omitempty"`
+	Error          *Error                 `protobuf:"bytes,9,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -491,6 +517,20 @@ func (x *AgentResponse) GetGatewayAddress() string {
 		return x.GatewayAddress
 	}
 	return ""
+}
+
+func (x *AgentResponse) GetGatewayPort() int32 {
+	if x != nil {
+		return x.GatewayPort
+	}
+	return 0
+}
+
+func (x *AgentResponse) GetWssPort() int32 {
+	if x != nil {
+		return x.WssPort
+	}
+	return 0
 }
 
 func (x *AgentResponse) GetCapacity() *Capacity {
@@ -729,43 +769,48 @@ const file_proto_maps_proto_rawDesc = "" +
 	"\x10proto/maps.proto\x12\x04maps\"F\n" +
 	"\x05Error\x12#\n" +
 	"\x04code\x18\x01 \x01(\x0e2\x0f.maps.ErrorCodeR\x04code\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"\xcb\x01\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"\xe6\x01\n" +
 	"\x11GatewayPutRequest\x12\x16\n" +
 	"\x06region\x18\x01 \x01(\tR\x06region\x12\x1d\n" +
 	"\n" +
 	"gateway_ip\x18\x02 \x01(\tR\tgatewayIp\x12!\n" +
-	"\fgateway_port\x18\x04 \x01(\x05R\vgatewayPort\x12*\n" +
+	"\fgateway_port\x18\x03 \x01(\x05R\vgatewayPort\x12\x19\n" +
+	"\bwss_port\x18\x04 \x01(\x05R\awssPort\x12*\n" +
 	"\bcapacity\x18\x05 \x01(\v2\x0e.maps.CapacityR\bcapacity\x120\n" +
 	"\x14verifiable_cred_hash\x18\x06 \x01(\tR\x12verifiableCredHash\"l\n" +
 	"\bCapacity\x12\x10\n" +
 	"\x03cpu\x18\x01 \x01(\x05R\x03cpu\x12\x16\n" +
 	"\x06memory\x18\x02 \x01(\x05R\x06memory\x12\x18\n" +
 	"\astorage\x18\x03 \x01(\x05R\astorage\x12\x1c\n" +
-	"\tbandwidth\x18\x04 \x01(\x05R\tbandwidth\"\xc7\x01\n" +
+	"\tbandwidth\x18\x04 \x01(\x05R\tbandwidth\"\x85\x02\n" +
 	"\x0fGatewayResponse\x12\x1d\n" +
 	"\n" +
 	"gateway_id\x18\x01 \x01(\tR\tgatewayId\x12\x1d\n" +
 	"\n" +
 	"gateway_ip\x18\x02 \x01(\tR\tgatewayIp\x12'\n" +
-	"\x0fgateway_address\x18\x03 \x01(\tR\x0egatewayAddress\x12*\n" +
-	"\bcapacity\x18\x04 \x01(\v2\x0e.maps.CapacityR\bcapacity\x12!\n" +
-	"\x05error\x18\x05 \x01(\v2\v.maps.ErrorR\x05error\"\xa4\x01\n" +
+	"\x0fgateway_address\x18\x03 \x01(\tR\x0egatewayAddress\x12!\n" +
+	"\fgateway_port\x18\x04 \x01(\x05R\vgatewayPort\x12\x19\n" +
+	"\bwss_port\x18\x05 \x01(\x05R\awssPort\x12*\n" +
+	"\bcapacity\x18\x06 \x01(\v2\x0e.maps.CapacityR\bcapacity\x12!\n" +
+	"\x05error\x18\a \x01(\v2\v.maps.ErrorR\x05error\"\xa4\x01\n" +
 	"\x16AgentConnectionRequest\x12!\n" +
 	"\fagent_domain\x18\x01 \x01(\tR\vagentDomain\x120\n" +
 	"\x14verifiable_cred_hash\x18\x02 \x01(\tR\x12verifiableCredHash\x12\x1d\n" +
 	"\n" +
 	"gateway_id\x18\x03 \x01(\tR\tgatewayId\x12\x16\n" +
-	"\x06region\x18\x04 \x01(\tR\x06region\"\x83\x02\n" +
+	"\x06region\x18\x04 \x01(\tR\x06region\"\xc1\x02\n" +
 	"\rAgentResponse\x12\x19\n" +
 	"\bagent_id\x18\x01 \x01(\tR\aagentId\x12!\n" +
 	"\fagent_domain\x18\x02 \x01(\tR\vagentDomain\x12\x1d\n" +
 	"\n" +
 	"gateway_id\x18\x03 \x01(\tR\tgatewayId\x12'\n" +
-	"\x0fgateway_address\x18\x04 \x01(\tR\x0egatewayAddress\x12*\n" +
-	"\bcapacity\x18\x05 \x01(\v2\x0e.maps.CapacityR\bcapacity\x12\x1d\n" +
+	"\x0fgateway_address\x18\x04 \x01(\tR\x0egatewayAddress\x12!\n" +
+	"\fgateway_port\x18\x05 \x01(\x05R\vgatewayPort\x12\x19\n" +
+	"\bwss_port\x18\x06 \x01(\x05R\awssPort\x12*\n" +
+	"\bcapacity\x18\a \x01(\v2\x0e.maps.CapacityR\bcapacity\x12\x1d\n" +
 	"\n" +
-	"gateway_ip\x18\x06 \x01(\tR\tgatewayIp\x12!\n" +
-	"\x05error\x18\a \x01(\v2\v.maps.ErrorR\x05error\"*\n" +
+	"gateway_ip\x18\b \x01(\tR\tgatewayIp\x12!\n" +
+	"\x05error\x18\t \x01(\v2\v.maps.ErrorR\x05error\"*\n" +
 	"\x10GatewayHandshake\x12\x16\n" +
 	"\x06region\x18\x01 \x01(\tR\x06region\"h\n" +
 	"\x10MultipleGateways\x121\n" +
