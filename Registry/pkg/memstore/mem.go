@@ -31,6 +31,8 @@ type AgentData struct {
 	AgentDomain    string
 	GatewayID      string
 	GatewayIP      string
+	GatewayPort    int32
+	Wssport        int32
 	GatewayAddress string
 	VerifiableHash string
 }
@@ -40,6 +42,7 @@ type GatewayData struct {
 	GatewayIP      string
 	GatewayAddress string
 	GatewayPort    int32
+	Wssport        int32
 	Capacity       Capacity
 	VerifiableHash string
 }

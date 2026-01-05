@@ -26,6 +26,8 @@ func (mem *MemStore) AddAgent(region string, agent *AgentData) (*AgentData, *Gat
 
 	agent.GatewayIP = gateway.GatewayIP
 	agent.GatewayAddress = gateway.GatewayAddress
+	agent.GatewayPort = gateway.GatewayPort
+	agent.Wssport = gateway.Wssport
 
 	data.Agents[agent.AgentDomain] = agent
 

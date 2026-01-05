@@ -32,6 +32,7 @@ func (rpc *RPCMap) RegisterGateway(ctx context.Context, req *mapper.GatewayPutRe
 		GatewayID:      identity,
 		GatewayPort:    req.GatewayPort,
 		VerifiableHash: req.VerifiableCredHash,
+		Wssport:        req.WssPort,
 		Capacity: memstore.Capacity{
 			CPU:     req.Capacity.Cpu,
 			Memory:  req.Capacity.Memory,
@@ -88,6 +89,8 @@ func (rpc *RPCMap) RegisterGateway(ctx context.Context, req *mapper.GatewayPutRe
 		GatewayId:      data.GatewayID,
 		GatewayIp:      data.GatewayIP,
 		GatewayAddress: data.GatewayAddress,
+		GatewayPort:    data.GatewayPort,
+		WssPort:        data.Wssport,
 		Capacity: &mapper.Capacity{
 			Cpu:     data.Capacity.CPU,
 			Memory:  data.Capacity.Memory,
