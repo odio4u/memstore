@@ -92,6 +92,7 @@ func (rpc *RPCMap) RegisterGateway(ctx context.Context, req *mapper.GatewayPutRe
 		GatewayAddress: data.GatewayAddress,
 		GatewayPort:    data.GatewayPort,
 		WssPort:        data.Wssport,
+		Identity:       data.VerifiableHash,
 		Capacity: &mapper.Capacity{
 			Cpu:     data.Capacity.CPU,
 			Memory:  data.Capacity.Memory,
