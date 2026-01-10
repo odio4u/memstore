@@ -295,6 +295,7 @@ type GatewayResponse struct {
 	WssPort        int32                  `protobuf:"varint,5,opt,name=wss_port,json=wssPort,proto3" json:"wss_port,omitempty"`
 	Capacity       *Capacity              `protobuf:"bytes,6,opt,name=capacity,proto3" json:"capacity,omitempty"`
 	Error          *Error                 `protobuf:"bytes,7,opt,name=error,proto3" json:"error,omitempty"`
+	Identity       string                 `protobuf:"bytes,8,opt,name=Identity,proto3" json:"Identity,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -378,6 +379,13 @@ func (x *GatewayResponse) GetError() *Error {
 	return nil
 }
 
+func (x *GatewayResponse) GetIdentity() string {
+	if x != nil {
+		return x.Identity
+	}
+	return ""
+}
+
 type AgentConnectionRequest struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	AgentDomain        string                 `protobuf:"bytes,1,opt,name=agent_domain,json=agentDomain,proto3" json:"agent_domain,omitempty"`
@@ -457,6 +465,7 @@ type AgentResponse struct {
 	Capacity       *Capacity              `protobuf:"bytes,7,opt,name=capacity,proto3" json:"capacity,omitempty"`
 	GatewayIp      string                 `protobuf:"bytes,8,opt,name=gateway_ip,json=gatewayIp,proto3" json:"gateway_ip,omitempty"`
 	Error          *Error                 `protobuf:"bytes,9,opt,name=error,proto3" json:"error,omitempty"`
+	Identity       string                 `protobuf:"bytes,10,opt,name=Identity,proto3" json:"Identity,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -552,6 +561,13 @@ func (x *AgentResponse) GetError() *Error {
 		return x.Error
 	}
 	return nil
+}
+
+func (x *AgentResponse) GetIdentity() string {
+	if x != nil {
+		return x.Identity
+	}
+	return ""
 }
 
 type GatewayHandshake struct {
@@ -782,7 +798,7 @@ const file_proto_maps_proto_rawDesc = "" +
 	"\x03cpu\x18\x01 \x01(\x05R\x03cpu\x12\x16\n" +
 	"\x06memory\x18\x02 \x01(\x05R\x06memory\x12\x18\n" +
 	"\astorage\x18\x03 \x01(\x05R\astorage\x12\x1c\n" +
-	"\tbandwidth\x18\x04 \x01(\x05R\tbandwidth\"\x85\x02\n" +
+	"\tbandwidth\x18\x04 \x01(\x05R\tbandwidth\"\xa1\x02\n" +
 	"\x0fGatewayResponse\x12\x1d\n" +
 	"\n" +
 	"gateway_id\x18\x01 \x01(\tR\tgatewayId\x12\x1d\n" +
@@ -792,13 +808,14 @@ const file_proto_maps_proto_rawDesc = "" +
 	"\fgateway_port\x18\x04 \x01(\x05R\vgatewayPort\x12\x19\n" +
 	"\bwss_port\x18\x05 \x01(\x05R\awssPort\x12*\n" +
 	"\bcapacity\x18\x06 \x01(\v2\x0e.maps.CapacityR\bcapacity\x12!\n" +
-	"\x05error\x18\a \x01(\v2\v.maps.ErrorR\x05error\"\xa4\x01\n" +
+	"\x05error\x18\a \x01(\v2\v.maps.ErrorR\x05error\x12\x1a\n" +
+	"\bIdentity\x18\b \x01(\tR\bIdentity\"\xa4\x01\n" +
 	"\x16AgentConnectionRequest\x12!\n" +
 	"\fagent_domain\x18\x01 \x01(\tR\vagentDomain\x120\n" +
 	"\x14verifiable_cred_hash\x18\x02 \x01(\tR\x12verifiableCredHash\x12\x1d\n" +
 	"\n" +
 	"gateway_id\x18\x03 \x01(\tR\tgatewayId\x12\x16\n" +
-	"\x06region\x18\x04 \x01(\tR\x06region\"\xc1\x02\n" +
+	"\x06region\x18\x04 \x01(\tR\x06region\"\xdd\x02\n" +
 	"\rAgentResponse\x12\x19\n" +
 	"\bagent_id\x18\x01 \x01(\tR\aagentId\x12!\n" +
 	"\fagent_domain\x18\x02 \x01(\tR\vagentDomain\x12\x1d\n" +
@@ -810,7 +827,9 @@ const file_proto_maps_proto_rawDesc = "" +
 	"\bcapacity\x18\a \x01(\v2\x0e.maps.CapacityR\bcapacity\x12\x1d\n" +
 	"\n" +
 	"gateway_ip\x18\b \x01(\tR\tgatewayIp\x12!\n" +
-	"\x05error\x18\t \x01(\v2\v.maps.ErrorR\x05error\"*\n" +
+	"\x05error\x18\t \x01(\v2\v.maps.ErrorR\x05error\x12\x1a\n" +
+	"\bIdentity\x18\n" +
+	" \x01(\tR\bIdentity\"*\n" +
 	"\x10GatewayHandshake\x12\x16\n" +
 	"\x06region\x18\x01 \x01(\tR\x06region\"h\n" +
 	"\x10MultipleGateways\x121\n" +

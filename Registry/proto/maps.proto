@@ -54,6 +54,7 @@ message GatewayResponse {
     int32 wss_port =5;
     Capacity capacity = 6;
     Error error = 7;
+    string Identity = 8;
 }
 
 message AgentConnectionRequest {
@@ -73,6 +74,8 @@ message AgentResponse {
     Capacity capacity = 7;
     string gateway_ip = 8;
     Error error = 9;
+    string Identity = 10;
+
 }
 
 message GatewayHandshake {

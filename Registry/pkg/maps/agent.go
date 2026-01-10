@@ -66,6 +66,7 @@ func (rpc *RPCMap) RegisterAgent(ctx context.Context, req *mapper.AgentConnectio
 		GatewayIp:      agent.GatewayIP,
 		GatewayPort:    agent.GatewayPort,
 		WssPort:        agent.Wssport,
+		Identity:       agent.VerifiableHash,
 		Capacity: &mapper.Capacity{
 			Cpu:     gateway.Capacity.CPU,
 			Memory:  gateway.Capacity.Memory,

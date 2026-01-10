@@ -20,6 +20,7 @@ func (rpc *RPCMap) ResolveGatewayForAgent(ctx context.Context, req *mapper.Gatew
 			GatewayAddress: gateway.GatewayAddress,
 			GatewayPort:    gateway.GatewayPort,
 			WssPort:        gateway.Wssport,
+			Identity:       gateway.VerifiableHash,
 			Capacity: &mapper.Capacity{
 				Cpu:       gateway.Capacity.CPU,
 				Memory:    gateway.Capacity.Memory,
@@ -60,6 +61,7 @@ func (rpc *RPCMap) ResolveGatewayForProxy(ctx context.Context, req *mapper.Gatew
 			GatewayAddress: gateway.GatewayAddress,
 			GatewayPort:    gateway.GatewayPort,
 			WssPort:        gateway.Wssport,
+			Identity:       gateway.VerifiableHash,
 			Capacity:       &mapper.Capacity{},
 			Error:          nil,
 		}, nil
