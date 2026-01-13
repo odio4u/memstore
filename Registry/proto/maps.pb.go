@@ -666,7 +666,7 @@ func (x *MultipleGateways) GetError() *Error {
 	return nil
 }
 
-type GatewayProxy struct {
+type ProxyMapping struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	AgentDomain   string                 `protobuf:"bytes,1,opt,name=agent_domain,json=agentDomain,proto3" json:"agent_domain,omitempty"`
 	Region        string                 `protobuf:"bytes,2,opt,name=region,proto3" json:"region,omitempty"`
@@ -675,20 +675,20 @@ type GatewayProxy struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GatewayProxy) Reset() {
-	*x = GatewayProxy{}
+func (x *ProxyMapping) Reset() {
+	*x = ProxyMapping{}
 	mi := &file_proto_maps_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GatewayProxy) String() string {
+func (x *ProxyMapping) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GatewayProxy) ProtoMessage() {}
+func (*ProxyMapping) ProtoMessage() {}
 
-func (x *GatewayProxy) ProtoReflect() protoreflect.Message {
+func (x *ProxyMapping) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_maps_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -700,26 +700,26 @@ func (x *GatewayProxy) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GatewayProxy.ProtoReflect.Descriptor instead.
-func (*GatewayProxy) Descriptor() ([]byte, []int) {
+// Deprecated: Use ProxyMapping.ProtoReflect.Descriptor instead.
+func (*ProxyMapping) Descriptor() ([]byte, []int) {
 	return file_proto_maps_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *GatewayProxy) GetAgentDomain() string {
+func (x *ProxyMapping) GetAgentDomain() string {
 	if x != nil {
 		return x.AgentDomain
 	}
 	return ""
 }
 
-func (x *GatewayProxy) GetRegion() string {
+func (x *ProxyMapping) GetRegion() string {
 	if x != nil {
 		return x.Region
 	}
 	return ""
 }
 
-func (x *GatewayProxy) GetProxyId() string {
+func (x *ProxyMapping) GetProxyId() string {
 	if x != nil {
 		return x.ProxyId
 	}
@@ -835,7 +835,7 @@ const file_proto_maps_proto_rawDesc = "" +
 	"\x10MultipleGateways\x121\n" +
 	"\bgateways\x18\x01 \x03(\v2\x15.maps.GatewayResponseR\bgateways\x12!\n" +
 	"\x05error\x18\x02 \x01(\v2\v.maps.ErrorR\x05error\"d\n" +
-	"\fGatewayProxy\x12!\n" +
+	"\fProxyMapping\x12!\n" +
 	"\fagent_domain\x18\x01 \x01(\tR\vagentDomain\x12\x16\n" +
 	"\x06region\x18\x02 \x01(\tR\x06region\x12\x19\n" +
 	"\bproxy_id\x18\x03 \x01(\tR\aproxyId\"b\n" +
@@ -849,12 +849,12 @@ const file_proto_maps_proto_rawDesc = "" +
 	"\x19ERROR_CODE_ALREADY_EXISTS\x10\x03\x12\x1a\n" +
 	"\x16ERROR_CODE_UNAVAILABLE\x10\x04\x12\x17\n" +
 	"\x13ERROR_CODE_INTERNAL\x10\x05\x12\x1b\n" +
-	"\x17ERROR_CODE_UNAUTHORIZED\x10\x062\x9c\x02\n" +
+	"\x17ERROR_CODE_UNAUTHORIZED\x10\x062\x9a\x02\n" +
 	"\x04Maps\x12A\n" +
 	"\x0fRegisterGateway\x12\x17.maps.GatewayPutRequest\x1a\x15.maps.GatewayResponse\x12B\n" +
 	"\rRegisterAgent\x12\x1c.maps.AgentConnectionRequest\x1a\x13.maps.AgentResponse\x12H\n" +
-	"\x16ResolveGatewayForAgent\x12\x16.maps.GatewayHandshake\x1a\x16.maps.MultipleGateways\x12C\n" +
-	"\x16ResolveGatewayForProxy\x12\x12.maps.GatewayProxy\x1a\x15.maps.GatewayResponseB6Z4github.com/Purple-House/memstore/registry/proto;mapsb\x06proto3"
+	"\x16ResolveGatewayForAgent\x12\x16.maps.GatewayHandshake\x1a\x16.maps.MultipleGateways\x12A\n" +
+	"\x16ResolveGatewayForProxy\x12\x12.maps.ProxyMapping\x1a\x13.maps.AgentResponseB6Z4github.com/Purple-House/memstore/registry/proto;mapsb\x06proto3"
 
 var (
 	file_proto_maps_proto_rawDescOnce sync.Once
@@ -880,7 +880,7 @@ var file_proto_maps_proto_goTypes = []any{
 	(*AgentResponse)(nil),          // 6: maps.AgentResponse
 	(*GatewayHandshake)(nil),       // 7: maps.GatewayHandshake
 	(*MultipleGateways)(nil),       // 8: maps.MultipleGateways
-	(*GatewayProxy)(nil),           // 9: maps.GatewayProxy
+	(*ProxyMapping)(nil),           // 9: maps.ProxyMapping
 	(*ProxyConnectionRequest)(nil), // 10: maps.ProxyConnectionRequest
 }
 var file_proto_maps_proto_depIdxs = []int32{
@@ -895,11 +895,11 @@ var file_proto_maps_proto_depIdxs = []int32{
 	2,  // 8: maps.Maps.RegisterGateway:input_type -> maps.GatewayPutRequest
 	5,  // 9: maps.Maps.RegisterAgent:input_type -> maps.AgentConnectionRequest
 	7,  // 10: maps.Maps.ResolveGatewayForAgent:input_type -> maps.GatewayHandshake
-	9,  // 11: maps.Maps.ResolveGatewayForProxy:input_type -> maps.GatewayProxy
+	9,  // 11: maps.Maps.ResolveGatewayForProxy:input_type -> maps.ProxyMapping
 	4,  // 12: maps.Maps.RegisterGateway:output_type -> maps.GatewayResponse
 	6,  // 13: maps.Maps.RegisterAgent:output_type -> maps.AgentResponse
 	8,  // 14: maps.Maps.ResolveGatewayForAgent:output_type -> maps.MultipleGateways
-	4,  // 15: maps.Maps.ResolveGatewayForProxy:output_type -> maps.GatewayResponse
+	6,  // 15: maps.Maps.ResolveGatewayForProxy:output_type -> maps.AgentResponse
 	12, // [12:16] is the sub-list for method output_type
 	8,  // [8:12] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name

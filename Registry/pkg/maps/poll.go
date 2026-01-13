@@ -45,9 +45,9 @@ func (rpc *RPCMap) ResolveGatewayForAgent(ctx context.Context, req *mapper.Gatew
 	}, nil
 }
 
-func (rpc *RPCMap) ResolveGatewayForProxy(ctx context.Context, req *mapper.GatewayProxy) (*mapper.GatewayResponse, error) {
+func (rpc *RPCMap) ResolveGatewayForProxy(ctx context.Context, req *mapper.ProxyMapping) (*mapper.AgentResponse, error) {
 
-	gateway, exist := rpc.MemStore.GetAgent(
+	agent, exist := rpc.MemStore.GetAgent(
 		req.AgentDomain,
 		req.Region,
 	)
@@ -55,18 +55,18 @@ func (rpc *RPCMap) ResolveGatewayForProxy(ctx context.Context, req *mapper.Gatew
 	fmt.Println("ResolveGatewayForProxy capacity:")
 
 	if exist {
-		return &mapper.GatewayResponse{
-			GatewayId:      gateway.GatewayID,
-			GatewayIp:      gateway.GatewayIP,
-			GatewayAddress: gateway.GatewayAddress,
-			GatewayPort:    gateway.GatewayPort,
-			WssPort:        gateway.Wssport,
-			Identity:       gateway.VerifiableHash,
-			Capacity:       &mapper.Capacity{},
-			Error:          nil,
+		return &mapper.AgentResponse{
+			AgentId:        agent.AgentID,
+			AgentDomain:    agent.AgentDomain,
+			GatewayId:      agent.GatewayID,
+			GatewayAddress: agent.GatewayAddress,
+			GatewayIp:      agent.GatewayIP,
+			GatewayPort:    agent.GatewayPort,
+			WssPort:        agent.Wssport,
+			Identity:       agent.VerifiableHash,
 		}, nil
 	}
-	return &mapper.GatewayResponse{
+	return &mapper.AgentResponse{
 		Error: &mapper.Error{
 			Code:    2,
 			Message: "gateway not found",
