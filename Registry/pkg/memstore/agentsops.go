@@ -1,6 +1,8 @@
 package memstore
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func (mem *MemStore) AddAgent(region string, agent *AgentData) (*AgentData, *GatewayData, error) {
 
@@ -41,6 +43,8 @@ func (mem *MemStore) GetAgent(agentDomain, region string) (*AgentData, bool) {
 	if !exists {
 		return &AgentData{}, false
 	}
+
+	fmt.Println("found the agent ", agent.AgentID)
 
 	gateway, exist := mem.GetGateway(region, agent.GatewayID)
 	if exist {
