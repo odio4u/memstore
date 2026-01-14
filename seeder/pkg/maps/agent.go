@@ -6,9 +6,9 @@ import (
 	"encoding/hex"
 	"fmt"
 
+	walpb "github.com/odio4u/agni-schema/wal"
 	memstore "github.com/odio4u/memstore/seeder/pkg/memstore"
 	mapper "github.com/odio4u/memstore/seeder/proto"
-	walpb "github.com/odio4u/memstore/seeder/wal/proto"
 )
 
 func (rpc *RPCMap) RegisterAgent(ctx context.Context, req *mapper.AgentConnectionRequest) (*mapper.AgentResponse, error) {

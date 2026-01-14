@@ -8,7 +8,7 @@ import (
 	"os"
 	"sync"
 
-	walpb "github.com/odio4u/memstore/seeder/wal/proto"
+	walpb "github.com/odio4u/agni-schema/wal"
 	"google.golang.org/protobuf/proto"
 )
 
