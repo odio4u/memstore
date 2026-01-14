@@ -6,9 +6,9 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	memstore "github.com/Purple-House/memstore/registry/pkg/memstore"
-	mapper "github.com/Purple-House/memstore/registry/proto"
-	walpb "github.com/Purple-House/memstore/registry/wal/proto"
+	memstore "github.com/odio4u/memstore/registry/pkg/memstore"
+	mapper "github.com/odio4u/memstore/registry/proto"
+	walpb "github.com/odio4u/memstore/registry/wal/proto"
 )
 
 func (rpc *RPCMap) RegisterAgent(ctx context.Context, req *mapper.AgentConnectionRequest) (*mapper.AgentResponse, error) {

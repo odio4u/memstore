@@ -419,7 +419,7 @@ const file_wal_proto_wal_proto_rawDesc = "" +
 	"\n" +
 	"OP_UNKNOWN\x10\x00\x12\x12\n" +
 	"\x0eOP_PUT_GATEWAY\x10\x01\x12\x10\n" +
-	"\fOP_PUT_AGENT\x10\x02B9Z7github.com/Purple-House/memstore/registry/wal/proto;walb\x06proto3"
+	"\fOP_PUT_AGENT\x10\x02B3Z1github.com/odio4u/memstore/registry/wal/proto;walb\x06proto3"
 
 var (
 	file_wal_proto_wal_proto_rawDescOnce sync.Once

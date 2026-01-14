@@ -1,7 +1,5 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
-github.com/Purple-House/mem-sdk/certengine v0.0.0-20260101204212-9db4893a970f h1:AMxEHjllNkRRiFAW8lu5FklqMjg5V2epK6DFd+uN9ms=
-github.com/Purple-House/mem-sdk/certengine v0.0.0-20260101204212-9db4893a970f/go.mod h1:ur8Hyt7cG4lCWcVXEpCL4W8Yi63c6UzbWrX2urYdOAU=
 github.com/benbjohnson/clock v1.1.0/go.mod h1:J11/hYXuz8f4ySSvYwY0FKfm+ezbsZBKZxNJlLklBHA=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=

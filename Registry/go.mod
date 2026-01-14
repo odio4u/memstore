@@ -1,9 +1,8 @@
-module github.com/Purple-House/memstore/registry
+module github.com/odio4u/memstore/registry
 
 go 1.25.5
 
 require (
-	github.com/Purple-House/mem-sdk/certengine v0.0.0-20260101204212-9db4893a970f
 	github.com/google/btree v1.1.3
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	google.golang.org/grpc v1.76.0
