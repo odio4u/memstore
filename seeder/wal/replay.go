@@ -10,8 +10,8 @@ import (
 	"io"
 	"os"
 
+	walpb "github.com/odio4u/agni-schema/wal"
 	memstore "github.com/odio4u/memstore/seeder/pkg/memstore"
-	walpb "github.com/odio4u/memstore/seeder/wal/proto"
 	"google.golang.org/protobuf/proto"
 )
 
