@@ -2,7 +2,7 @@
 syntax = "proto3";
 package wal;
 
-option go_package = "github.com/odio4u/memstore/registry/wal/proto;wal";
+option go_package = "github.com/odio4u/memstore/seeder/wal/proto;wal";
 
 
 enum Operation {

@@ -1,9 +1,9 @@
 package maps
 
 import (
-	memstore "github.com/odio4u/memstore/registry/pkg/memstore"
-	mapper "github.com/odio4u/memstore/registry/proto"
-	"github.com/odio4u/memstore/registry/wal"
+	memstore "github.com/odio4u/memstore/seeder/pkg/memstore"
+	mapper "github.com/odio4u/memstore/seeder/proto"
+	"github.com/odio4u/memstore/seeder/wal"
 )
 
 type RPCMap struct {

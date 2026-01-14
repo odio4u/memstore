@@ -16,11 +16,11 @@ import (
 	"runtime/debug"
 
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
-	"github.com/odio4u/memstore/registry/pkg/maps"
-	memstore "github.com/odio4u/memstore/registry/pkg/memstore"
-	mapper "github.com/odio4u/memstore/registry/proto"
-	wal "github.com/odio4u/memstore/registry/wal"
-	walpb "github.com/odio4u/memstore/registry/wal/proto"
+	"github.com/odio4u/memstore/seeder/pkg/maps"
+	memstore "github.com/odio4u/memstore/seeder/pkg/memstore"
+	mapper "github.com/odio4u/memstore/seeder/proto"
+	wal "github.com/odio4u/memstore/seeder/wal"
+	walpb "github.com/odio4u/memstore/seeder/wal/proto"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"

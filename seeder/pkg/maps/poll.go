@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	mapper "github.com/odio4u/memstore/registry/proto"
+	mapper "github.com/odio4u/memstore/seeder/proto"
 )
 
 func (rpc *RPCMap) ResolveGatewayForAgent(ctx context.Context, req *mapper.GatewayHandshake) (*mapper.MultipleGateways, error) {

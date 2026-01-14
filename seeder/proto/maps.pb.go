@@ -854,7 +854,7 @@ const file_proto_maps_proto_rawDesc = "" +
 	"\x0fRegisterGateway\x12\x17.maps.GatewayPutRequest\x1a\x15.maps.GatewayResponse\x12B\n" +
 	"\rRegisterAgent\x12\x1c.maps.AgentConnectionRequest\x1a\x13.maps.AgentResponse\x12H\n" +
 	"\x16ResolveGatewayForAgent\x12\x16.maps.GatewayHandshake\x1a\x16.maps.MultipleGateways\x12A\n" +
-	"\x16ResolveGatewayForProxy\x12\x12.maps.ProxyMapping\x1a\x13.maps.AgentResponseB0Z.github.com/odio4u/memstore/registry/proto;mapsb\x06proto3"
+	"\x16ResolveGatewayForProxy\x12\x12.maps.ProxyMapping\x1a\x13.maps.AgentResponseB.Z,github.com/odio4u/memstore/seeder/proto;mapsb\x06proto3"
 
 var (
 	file_proto_maps_proto_rawDescOnce sync.Once

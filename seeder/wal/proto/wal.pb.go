@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        (unknown)
-// source: wal/proto/wal.proto
+// source: proto/wal.proto
 
 package wal
 
@@ -54,11 +54,11 @@ func (x Operation) String() string {
 }
 
 func (Operation) Descriptor() protoreflect.EnumDescriptor {
-	return file_wal_proto_wal_proto_enumTypes[0].Descriptor()
+	return file_proto_wal_proto_enumTypes[0].Descriptor()
 }
 
 func (Operation) Type() protoreflect.EnumType {
-	return &file_wal_proto_wal_proto_enumTypes[0]
+	return &file_proto_wal_proto_enumTypes[0]
 }
 
 func (x Operation) Number() protoreflect.EnumNumber {
@@ -67,7 +67,7 @@ func (x Operation) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Operation.Descriptor instead.
 func (Operation) EnumDescriptor() ([]byte, []int) {
-	return file_wal_proto_wal_proto_rawDescGZIP(), []int{0}
+	return file_proto_wal_proto_rawDescGZIP(), []int{0}
 }
 
 type WalRecord struct {
@@ -81,7 +81,7 @@ type WalRecord struct {
 
 func (x *WalRecord) Reset() {
 	*x = WalRecord{}
-	mi := &file_wal_proto_wal_proto_msgTypes[0]
+	mi := &file_proto_wal_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -93,7 +93,7 @@ func (x *WalRecord) String() string {
 func (*WalRecord) ProtoMessage() {}
 
 func (x *WalRecord) ProtoReflect() protoreflect.Message {
-	mi := &file_wal_proto_wal_proto_msgTypes[0]
+	mi := &file_proto_wal_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -106,7 +106,7 @@ func (x *WalRecord) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WalRecord.ProtoReflect.Descriptor instead.
 func (*WalRecord) Descriptor() ([]byte, []int) {
-	return file_wal_proto_wal_proto_rawDescGZIP(), []int{0}
+	return file_proto_wal_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *WalRecord) GetOp() Operation {
@@ -146,7 +146,7 @@ type GatewayPutRequest struct {
 
 func (x *GatewayPutRequest) Reset() {
 	*x = GatewayPutRequest{}
-	mi := &file_wal_proto_wal_proto_msgTypes[1]
+	mi := &file_proto_wal_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -158,7 +158,7 @@ func (x *GatewayPutRequest) String() string {
 func (*GatewayPutRequest) ProtoMessage() {}
 
 func (x *GatewayPutRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_wal_proto_wal_proto_msgTypes[1]
+	mi := &file_proto_wal_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -171,7 +171,7 @@ func (x *GatewayPutRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GatewayPutRequest.ProtoReflect.Descriptor instead.
 func (*GatewayPutRequest) Descriptor() ([]byte, []int) {
-	return file_wal_proto_wal_proto_rawDescGZIP(), []int{1}
+	return file_proto_wal_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GatewayPutRequest) GetRegion() string {
@@ -244,7 +244,7 @@ type AgentConnectionRequest struct {
 
 func (x *AgentConnectionRequest) Reset() {
 	*x = AgentConnectionRequest{}
-	mi := &file_wal_proto_wal_proto_msgTypes[2]
+	mi := &file_proto_wal_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -256,7 +256,7 @@ func (x *AgentConnectionRequest) String() string {
 func (*AgentConnectionRequest) ProtoMessage() {}
 
 func (x *AgentConnectionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_wal_proto_wal_proto_msgTypes[2]
+	mi := &file_proto_wal_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -269,7 +269,7 @@ func (x *AgentConnectionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AgentConnectionRequest.ProtoReflect.Descriptor instead.
 func (*AgentConnectionRequest) Descriptor() ([]byte, []int) {
-	return file_wal_proto_wal_proto_rawDescGZIP(), []int{2}
+	return file_proto_wal_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *AgentConnectionRequest) GetGatewayAddress() string {
@@ -326,7 +326,7 @@ type Capacity struct {
 
 func (x *Capacity) Reset() {
 	*x = Capacity{}
-	mi := &file_wal_proto_wal_proto_msgTypes[3]
+	mi := &file_proto_wal_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -338,7 +338,7 @@ func (x *Capacity) String() string {
 func (*Capacity) ProtoMessage() {}
 
 func (x *Capacity) ProtoReflect() protoreflect.Message {
-	mi := &file_wal_proto_wal_proto_msgTypes[3]
+	mi := &file_proto_wal_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -351,7 +351,7 @@ func (x *Capacity) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Capacity.ProtoReflect.Descriptor instead.
 func (*Capacity) Descriptor() ([]byte, []int) {
-	return file_wal_proto_wal_proto_rawDescGZIP(), []int{3}
+	return file_proto_wal_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *Capacity) GetCpu() int32 {
@@ -382,11 +382,11 @@ func (x *Capacity) GetBandwidth() int32 {
 	return 0
 }
 
-var File_wal_proto_wal_proto protoreflect.FileDescriptor
+var File_proto_wal_proto protoreflect.FileDescriptor
 
-const file_wal_proto_wal_proto_rawDesc = "" +
+const file_proto_wal_proto_rawDesc = "" +
 	"\n" +
-	"\x13wal/proto/wal.proto\x12\x03wal\"\x90\x01\n" +
+	"\x0fproto/wal.proto\x12\x03wal\"\x90\x01\n" +
 	"\tWalRecord\x12\x1e\n" +
 	"\x02op\x18\x01 \x01(\x0e2\x0e.wal.OperationR\x02op\x120\n" +
 	"\agateway\x18\x02 \x01(\v2\x16.wal.GatewayPutRequestR\agateway\x121\n" +
@@ -419,30 +419,30 @@ const file_wal_proto_wal_proto_rawDesc = "" +
 	"\n" +
 	"OP_UNKNOWN\x10\x00\x12\x12\n" +
 	"\x0eOP_PUT_GATEWAY\x10\x01\x12\x10\n" +
-	"\fOP_PUT_AGENT\x10\x02B3Z1github.com/odio4u/memstore/registry/wal/proto;walb\x06proto3"
+	"\fOP_PUT_AGENT\x10\x02B1Z/github.com/odio4u/memstore/seeder/wal/proto;walb\x06proto3"
 
 var (
-	file_wal_proto_wal_proto_rawDescOnce sync.Once
-	file_wal_proto_wal_proto_rawDescData []byte
+	file_proto_wal_proto_rawDescOnce sync.Once
+	file_proto_wal_proto_rawDescData []byte
 )
 
-func file_wal_proto_wal_proto_rawDescGZIP() []byte {
-	file_wal_proto_wal_proto_rawDescOnce.Do(func() {
-		file_wal_proto_wal_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_wal_proto_wal_proto_rawDesc), len(file_wal_proto_wal_proto_rawDesc)))
+func file_proto_wal_proto_rawDescGZIP() []byte {
+	file_proto_wal_proto_rawDescOnce.Do(func() {
+		file_proto_wal_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_wal_proto_rawDesc), len(file_proto_wal_proto_rawDesc)))
 	})
-	return file_wal_proto_wal_proto_rawDescData
+	return file_proto_wal_proto_rawDescData
 }
 
-var file_wal_proto_wal_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_wal_proto_wal_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
-var file_wal_proto_wal_proto_goTypes = []any{
+var file_proto_wal_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_proto_wal_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_proto_wal_proto_goTypes = []any{
 	(Operation)(0),                 // 0: wal.Operation
 	(*WalRecord)(nil),              // 1: wal.WalRecord
 	(*GatewayPutRequest)(nil),      // 2: wal.GatewayPutRequest
 	(*AgentConnectionRequest)(nil), // 3: wal.AgentConnectionRequest
 	(*Capacity)(nil),               // 4: wal.Capacity
 }
-var file_wal_proto_wal_proto_depIdxs = []int32{
+var file_proto_wal_proto_depIdxs = []int32{
 	0, // 0: wal.WalRecord.op:type_name -> wal.Operation
 	2, // 1: wal.WalRecord.gateway:type_name -> wal.GatewayPutRequest
 	3, // 2: wal.WalRecord.agent:type_name -> wal.AgentConnectionRequest
@@ -454,27 +454,27 @@ var file_wal_proto_wal_proto_depIdxs = []int32{
 	0, // [0:4] is the sub-list for field type_name
 }
 
-func init() { file_wal_proto_wal_proto_init() }
-func file_wal_proto_wal_proto_init() {
-	if File_wal_proto_wal_proto != nil {
+func init() { file_proto_wal_proto_init() }
+func file_proto_wal_proto_init() {
+	if File_proto_wal_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_wal_proto_wal_proto_rawDesc), len(file_wal_proto_wal_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_wal_proto_rawDesc), len(file_proto_wal_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_wal_proto_wal_proto_goTypes,
-		DependencyIndexes: file_wal_proto_wal_proto_depIdxs,
-		EnumInfos:         file_wal_proto_wal_proto_enumTypes,
-		MessageInfos:      file_wal_proto_wal_proto_msgTypes,
+		GoTypes:           file_proto_wal_proto_goTypes,
+		DependencyIndexes: file_proto_wal_proto_depIdxs,
+		EnumInfos:         file_proto_wal_proto_enumTypes,
+		MessageInfos:      file_proto_wal_proto_msgTypes,
 	}.Build()
-	File_wal_proto_wal_proto = out.File
-	file_wal_proto_wal_proto_goTypes = nil
-	file_wal_proto_wal_proto_depIdxs = nil
+	File_proto_wal_proto = out.File
+	file_proto_wal_proto_goTypes = nil
+	file_proto_wal_proto_depIdxs = nil
 }

@@ -1,4 +1,4 @@
-module github.com/odio4u/memstore/registry
+module github.com/odio4u/memstore/seeder
 
 go 1.25.5
 
