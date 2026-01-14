@@ -16,10 +16,10 @@ import (
 	"runtime/debug"
 
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
+	mapper "github.com/odio4u/agni-schema/maps"
 	walpb "github.com/odio4u/agni-schema/wal"
 	"github.com/odio4u/memstore/seeder/pkg/maps"
 	memstore "github.com/odio4u/memstore/seeder/pkg/memstore"
-	mapper "github.com/odio4u/memstore/seeder/proto"
 	wal "github.com/odio4u/memstore/seeder/wal"
 
 	"google.golang.org/grpc"

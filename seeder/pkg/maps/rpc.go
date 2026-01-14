@@ -1,8 +1,8 @@
 package maps
 
 import (
+	mapper "github.com/odio4u/agni-schema/maps"
 	memstore "github.com/odio4u/memstore/seeder/pkg/memstore"
-	mapper "github.com/odio4u/memstore/seeder/proto"
 	"github.com/odio4u/memstore/seeder/wal"
 )
 
