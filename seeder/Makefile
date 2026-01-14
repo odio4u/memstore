@@ -26,14 +26,5 @@ wal-proto-gen:
 
 gen-cert:
 	@echo "Generating certificates..."
-	cd certmaker && \
-	go run . \
-	  --ip "$(ip)" \
-	  --dns "$(dns)" \
-	  --name "$(name)" \
-	  $(if $(filter 1,$(client)),--client,) \
-	  $(if $(filter 1,$(force)),--force,) \
-	;
-
-
+	go run certs/seedcert.go
 .PHONY: install-deps build run proto-gen wal-proto-gen gen-cert help
