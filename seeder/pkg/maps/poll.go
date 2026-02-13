@@ -3,6 +3,7 @@ package maps
 import (
 	"context"
 	"fmt"
+	"log"
 
 	mapper "github.com/odio4u/agni-schema/maps"
 )
@@ -52,9 +53,8 @@ func (rpc *RPCMap) ResolveGatewayForProxy(ctx context.Context, req *mapper.Proxy
 		req.Region,
 	)
 
-	fmt.Println("ResolveGatewayForProxy capacity:")
-
 	if exist {
+		log.Println("found the gateway", agent.GatewayIP, agent.GatewayPort)
 		return &mapper.AgentResponse{
 			AgentId:        agent.AgentID,
 			AgentDomain:    agent.AgentDomain,
