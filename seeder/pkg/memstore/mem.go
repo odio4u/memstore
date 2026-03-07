@@ -22,6 +22,7 @@ type MemStore struct {
 type MemData struct {
 	Gateways map[string]*GatewayData
 	Agents   map[string]*AgentData
+	Seeders  map[string]*SeederData
 	ranked   *btree.BTree
 	Mu       sync.RWMutex
 }
@@ -34,6 +35,15 @@ type AgentData struct {
 	GatewayPort    int32
 	Wssport        int32
 	GatewayAddress string
+	VerifiableHash string
+}
+type SeederData struct {
+	SeederID       string
+	Name           string
+	Dns            string
+	SeedIP         string
+	SeedPort       string
+	Region         string
 	VerifiableHash string
 }
 

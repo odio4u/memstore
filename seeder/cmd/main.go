@@ -6,6 +6,7 @@ import (
 	"crypto/x509"
 	"encoding/hex"
 	"encoding/pem"
+	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -18,14 +19,28 @@ import (
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	mapper "github.com/odio4u/agni-schema/maps"
 	walpb "github.com/odio4u/agni-schema/wal"
+	"github.com/odio4u/mem-sdk/certengine/pkg"
 	"github.com/odio4u/memstore/seeder/pkg/maps"
 	memstore "github.com/odio4u/memstore/seeder/pkg/memstore"
 	wal "github.com/odio4u/memstore/seeder/wal"
+	"gopkg.in/yaml.v3"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
 )
+
+type Seeder struct {
+	IP   string `yaml:"ip"`
+	Port string `yaml:"port"`
+	Dns  string `yaml:"dns"`
+	Name string `yaml:"name"`
+}
+
+type Config struct {
+	Version string `yaml:"version"`
+	Seeder  Seeder `yaml:"Seeder"`
+}
 
 func gracefulShutdown(server *grpc.Server) {
 
@@ -64,8 +79,41 @@ func certFingurePrint() error {
 	return nil
 }
 
+func generateCerts() error {
+	data, err := os.ReadFile("seeder-config.yaml")
+	if err != nil {
+		return fmt.Errorf("error reading YAML file: %v", err)
+	}
+
+	var config Config
+	if err := yaml.Unmarshal(data, &config); err != nil {
+		return fmt.Errorf("error parsing YAML file: %v", err)
+	}
+
+	routerIps := []string{config.Seeder.IP}
+	dns := []string{config.Seeder.Dns}
+
+	_, err = pkg.GenerateSelfSignedGPR(config.Seeder.Name, routerIps, dns)
+	if err != nil {
+		return err
+	}
+
+	log.Println("Certificates generated successfully.")
+	return nil
+}
+
 func main() {
-	fmt.Println("Registry Service for Ingress Tunnel")
+	genCert := flag.Bool("gen-cert", false, "Generate self-signed certificates")
+	flag.Parse()
+
+	if *genCert {
+		if err := generateCerts(); err != nil {
+			log.Fatalf("Failed to generate certs: %v", err)
+		}
+		return // exit after generating certs
+	}
+
+	log.Println("Registry Service for Ingress Tunnel")
 
 	cert, err := tls.LoadX509KeyPair("certs/server.pem", "certs/server-key.pem")
 	if err != nil {
