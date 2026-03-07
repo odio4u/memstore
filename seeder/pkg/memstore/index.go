@@ -1,6 +1,22 @@
 package memstore
 
-import "github.com/google/btree"
+import (
+	"sync"
+
+	"github.com/google/btree"
+)
+
+var (
+	instance *MemStore
+	once     sync.Once
+)
+
+func GetMemStore() *MemStore {
+	once.Do(func() {
+		instance = NewMemStore()
+	})
+	return instance
+}
 
 func NewMemStore() *MemStore {
 	return &MemStore{
