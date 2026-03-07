@@ -39,13 +39,13 @@ func init() {
 	log.Println("load the config")
 
 	if err != nil {
-		log.Fatalf("error reading YAML file: %v", err)
+		log.Fatalf("[Agni Seeder] error reading YAML file: %v", err)
 	}
 
 	var config Config
 	err = yaml.Unmarshal(data, &config)
 	if err != nil {
-		log.Fatalf("error parsing YAML file: %v", err)
+		log.Fatalf("[Agni Seeder] error parsing YAML file: %v", err)
 	}
 
 	YamlConfig = &config

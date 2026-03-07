@@ -56,7 +56,7 @@ func gracefulShutdown(server *grpc.Server) {
 }
 
 func certFingurePrint() error {
-	permfile := "certs/server.pem" // replace with your file path
+	permfile := "server.pem" // replace with your file path
 	certPEM, err := os.ReadFile(permfile)
 	if err != nil {
 		return fmt.Errorf("failed to read certificate file: %v", err)
@@ -79,21 +79,12 @@ func certFingurePrint() error {
 	return nil
 }
 
-func generateCerts() error {
-	data, err := os.ReadFile("seeder-config.yaml")
-	if err != nil {
-		return fmt.Errorf("error reading YAML file: %v", err)
-	}
-
-	var config Config
-	if err := yaml.Unmarshal(data, &config); err != nil {
-		return fmt.Errorf("error parsing YAML file: %v", err)
-	}
+func generateCerts(config Config) error {
 
 	routerIps := []string{config.Seeder.IP}
 	dns := []string{config.Seeder.Dns}
 
-	_, err = pkg.GenerateSelfSignedGPR(config.Seeder.Name, routerIps, dns)
+	_, err := pkg.GenerateSelfSignedGPR(config.Seeder.Name, routerIps, dns)
 	if err != nil {
 		return err
 	}
@@ -103,21 +94,32 @@ func generateCerts() error {
 }
 
 func main() {
+
+	data, err := os.ReadFile("seeder-config.yaml")
+	if err != nil {
+		log.Fatal("[Agni Seeder] Can not read the seeder config file")
+	}
+
+	var config Config
+	if err := yaml.Unmarshal(data, &config); err != nil {
+		log.Fatal("[Agni Seeder] Falied to unmarsal seeder config")
+	}
+
 	genCert := flag.Bool("gen-cert", false, "Generate self-signed certificates")
 	flag.Parse()
 
 	if *genCert {
-		if err := generateCerts(); err != nil {
-			log.Fatalf("Failed to generate certs: %v", err)
+		if err := generateCerts(config); err != nil {
+			log.Fatalf("[Agni Seeder] Failed to generate certs: %v", err)
 		}
 		return // exit after generating certs
 	}
 
 	log.Println("Registry Service for Ingress Tunnel")
 
-	cert, err := tls.LoadX509KeyPair("certs/server.pem", "certs/server-key.pem")
+	cert, err := tls.LoadX509KeyPair("server.pem", "server-key.pem")
 	if err != nil {
-		log.Fatalf("failed to load server certificate: %v", err)
+		log.Fatalf("[Agni Seeder] failed to load server certificate: %v", err)
 	}
 
 	servertLs := &tls.Config{
@@ -142,7 +144,7 @@ func main() {
 
 	err = certFingurePrint()
 	if err != nil {
-		log.Fatalf("Failed to print certificate fingerprint: %v", err)
+		log.Fatalf("[Agni Seeder] Failed to print certificate fingerprint: %v", err)
 	}
 
 	port := os.Getenv("PORT")
@@ -153,7 +155,7 @@ func main() {
 
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		log.Fatalf("[Agni Seeder] failed to listen: %v", err)
 	}
 
 	recoveryOpts := []grpc_recovery.Option{
@@ -166,7 +168,7 @@ func main() {
 
 	waler, err := wal.OpenWAL()
 	if err != nil {
-		log.Fatalf("failed to open WAL: %v", err)
+		log.Fatalf("[Agni Seeder] failed to open WAL: %v", err)
 	}
 	defer waler.Close()
 
@@ -192,7 +194,7 @@ func main() {
 	fmt.Println("Server is running on port 50051")
 	go func() {
 		if err := s.Serve(lis); err != nil {
-			log.Fatalf("failed to serve: %v", err)
+			log.Fatalf("[Agni Seeder] failed to serve: %v", err)
 		}
 	}()
 

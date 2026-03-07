@@ -13,7 +13,7 @@ install-deps: .env
 	go mod tidy
 
 build: .env
-	go build -o bin/app cmd/main.go
+	go build -o bin/seeder.exe cmd/main.go
 
 run: .env
 	go run cmd/main.go
