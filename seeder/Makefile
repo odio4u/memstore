@@ -20,13 +20,12 @@ build: .env
 # Cross-compile for all platforms
 build-all: .env
 	@echo "Building for Windows, Linux, and macOS..."
-	@mkdir -p release
 	@echo "Building Linux..."
-	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o release/seeder-linux-amd64 cmd/main.go
+	cmd /C "set GOOS=linux&& set GOARCH=amd64&& set CGO_ENABLED=0&& go build -o release/seeder-linux-amd64 cmd/main.go"
 	@echo "Building macOS..."
-	GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -o release/seeder-macos-amd64 cmd/main.go
+	cmd /C "set GOOS=darwin&& set GOARCH=amd64&& set CGO_ENABLED=0&& go build -o release/seeder-macos-amd64 cmd/main.go"
 	@echo "Building Windows..."
-	GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -o release/seeder-windows-amd64.exe cmd/main.go
+	cmd /C "set GOOS=windows&& set GOARCH=amd64&& set CGO_ENABLED=0&& go build -o release/seeder-windows-amd64.exe cmd/main.go"
 	@echo "All builds completed."
 
 run: .env
