@@ -59,7 +59,7 @@ func certFingurePrint() error {
 	permfile := "server.pem" // replace with your file path
 	certPEM, err := os.ReadFile(permfile)
 	if err != nil {
-		return fmt.Errorf("failed to read certificate file: %v", err)
+		return fmt.Errorf("failed to read certificate file use `seeder -gen-cert` to create certificates")
 	}
 
 	block, _ := pem.Decode(certPEM)
@@ -119,7 +119,7 @@ func main() {
 
 	cert, err := tls.LoadX509KeyPair("server.pem", "server-key.pem")
 	if err != nil {
-		log.Fatalf("[Agni Seeder] failed to load server certificate: %v", err)
+		log.Fatalf("[Agni Seeder] failed to load server certificate use `seeder -gen-cert` to create certificates")
 	}
 
 	servertLs := &tls.Config{
@@ -147,7 +147,7 @@ func main() {
 		log.Fatalf("[Agni Seeder] Failed to print certificate fingerprint: %v", err)
 	}
 
-	port := os.Getenv("PORT")
+	port := config.Seeder.Port
 	if port == "" {
 		port = "50051"
 	}
@@ -191,7 +191,7 @@ func main() {
 	})
 
 	// Start the server
-	fmt.Println("Server is running on port 50051")
+	log.Println("GRPC server listening in :", port)
 	go func() {
 		if err := s.Serve(lis); err != nil {
 			log.Fatalf("[Agni Seeder] failed to serve: %v", err)
