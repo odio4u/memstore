@@ -48,6 +48,8 @@ func (rpc *RPCMap) ResolveGatewayForAgent(ctx context.Context, req *mapper.Gatew
 
 func (rpc *RPCMap) ResolveGatewayForProxy(ctx context.Context, req *mapper.ProxyMapping) (*mapper.AgentResponse, error) {
 
+	log.Println("finding gateway for", req.AgentDomain)
+
 	agent, exist := rpc.MemStore.GetAgent(
 		req.AgentDomain,
 		req.Region,
