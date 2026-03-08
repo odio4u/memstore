@@ -4,6 +4,7 @@ go 1.25.5
 
 require (
 	github.com/google/btree v1.1.3
+	github.com/gorilla/mux v1.8.1
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	github.com/odio4u/agni-schema v0.0.2
 	github.com/odio4u/mem-sdk/certengine v0.0.0-20260114102312-83d1080aacaa
