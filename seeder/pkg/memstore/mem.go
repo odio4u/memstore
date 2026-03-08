@@ -73,11 +73,7 @@ func (mem *MemStore) RegionExist(region string) *MemData {
 		mem.mu.Lock()
 		_, exists := mem.regions[region]
 		if !exists {
-			mem.regions[region] = &MemData{
-				Gateways: make(map[string]*GatewayData),
-				Agents:   make(map[string]*AgentData),
-				ranked:   btree.New(2),
-			}
+			mem.regions[region] = newMemData()
 		}
 		data = mem.regions[region]
 		mem.mu.Unlock()

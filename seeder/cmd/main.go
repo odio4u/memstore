@@ -40,6 +40,7 @@ type Seeder struct {
 	Dns    string `yaml:"dns"`
 	Name   string `yaml:"name"`
 	Viewer string `yaml:"viewer"`
+	Region string `yaml:"region"`
 }
 
 type Config struct {
@@ -60,28 +61,28 @@ func gracefulShutdown(server *grpc.Server) {
 
 }
 
-func certFingurePrint() error {
+func certFingurePrint() (*string, error) {
 	permfile := "server.pem" // replace with your file path
 	certPEM, err := os.ReadFile(permfile)
 	if err != nil {
-		return fmt.Errorf("failed to read certificate file use `seeder -gen-cert` to create certificates")
+		return nil, fmt.Errorf("failed to read certificate file use `seeder -gen-cert` to create certificates")
 	}
 
 	block, _ := pem.Decode(certPEM)
 
 	if block == nil || block.Type != "CERTIFICATE" {
-		return fmt.Errorf("failed to decode PEM block containing certificate")
+		return nil, fmt.Errorf("failed to decode PEM block containing certificate")
 	}
 
 	cert, err := x509.ParseCertificate(block.Bytes)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	sum := sha256.Sum256(cert.Raw)
 	fingerprint := hex.EncodeToString(sum[:])
 	log.Printf("Client CERT fingerprint (SHA256): %s", fingerprint)
-	return nil
+	return &fingerprint, nil
 }
 
 func generateCerts(config Config) error {
@@ -147,7 +148,7 @@ func main() {
 		Renegotiation: tls.RenegotiateNever,
 	}
 
-	err = certFingurePrint()
+	fingureprint, err := certFingurePrint()
 	if err != nil {
 		log.Fatalf("[Agni Seeder] Failed to print certificate fingerprint: %v", err)
 	}
@@ -200,9 +201,13 @@ func main() {
 
 	api.SetRoutes(router, apis)
 
+	readyGRPC := make(chan struct{})
+	readyHTTP := make(chan struct{})
+
 	// Start the server
-	log.Println("GRPC server listening in :", port)
 	go func() {
+		log.Println("GRPC server listening in :", port)
+		close(readyGRPC)
 		if err := s.Serve(lis); err != nil {
 			log.Fatalf("[Agni Seeder] failed to serve: %v", err)
 		}
@@ -218,10 +223,29 @@ func main() {
 
 	go func() {
 		log.Printf("Starting server on port %s", config.Seeder.Viewer)
+		close(readyHTTP)
 		if err := httpserver.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("Failed to start server: %v", err)
 		}
 	}()
+
+	// Wait for both servers to signal readiness
+	<-readyGRPC
+	<-readyHTTP
+
+	// Now safe to run your data-saving function
+	log.Println("Both servers are up. Saving data...")
+	store.AddSeeder(
+		&memstore.SeederData{
+			SeederID:       "register-q",
+			Name:           config.Seeder.Name,
+			Dns:            config.Seeder.Dns,
+			SeedIP:         config.Seeder.IP,
+			SeedPort:       config.Seeder.Port,
+			Region:         config.Seeder.Region,
+			VerifiableHash: *fingureprint,
+		},
+	)
 
 	gracefulShutdown(s)
 

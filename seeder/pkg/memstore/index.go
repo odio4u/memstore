@@ -29,6 +29,7 @@ func newMemData() *MemData {
 	return &MemData{
 		Gateways: make(map[string]*GatewayData),
 		Agents:   make(map[string]*AgentData),
+		Seeders:  make(map[string]*SeederData),
 		ranked:   btree.New(2),
 	}
 }

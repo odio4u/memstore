@@ -21,7 +21,6 @@ func NewApi(memstore *memstore.MemStore) *Api {
 
 func SetRoutes(router *mux.Router, api *Api) {
 	router.HandleFunc("/seeder", api.SeederView).Methods("GET")
-
 }
 
 func (a *Api) SeederView(w http.ResponseWriter, r *http.Request) {
