@@ -15,7 +15,7 @@ install-deps: .env
 
 # Build for the current OS
 build: .env
-	go build -o bin/seeder cmd/main.go
+	go build -o bin/seeder.exe cmd/main.go
 
 # Cross-compile for all platforms
 build-all: .env

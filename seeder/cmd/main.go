@@ -10,16 +10,20 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"runtime/debug"
 
+	"github.com/gorilla/mux"
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	mapper "github.com/odio4u/agni-schema/maps"
 	walpb "github.com/odio4u/agni-schema/wal"
 	"github.com/odio4u/mem-sdk/certengine/pkg"
+	"github.com/odio4u/memstore/seeder/pkg/api"
 	"github.com/odio4u/memstore/seeder/pkg/maps"
 	memstore "github.com/odio4u/memstore/seeder/pkg/memstore"
 	wal "github.com/odio4u/memstore/seeder/wal"
@@ -31,10 +35,11 @@ import (
 )
 
 type Seeder struct {
-	IP   string `yaml:"ip"`
-	Port string `yaml:"port"`
-	Dns  string `yaml:"dns"`
-	Name string `yaml:"name"`
+	IP     string `yaml:"ip"`
+	Port   string `yaml:"port"`
+	Dns    string `yaml:"dns"`
+	Name   string `yaml:"name"`
+	Viewer string `yaml:"viewer"`
 }
 
 type Config struct {
@@ -190,11 +195,31 @@ func main() {
 
 	})
 
+	apis := api.NewApi(store)
+	router := mux.NewRouter()
+
+	api.SetRoutes(router, apis)
+
 	// Start the server
 	log.Println("GRPC server listening in :", port)
 	go func() {
 		if err := s.Serve(lis); err != nil {
 			log.Fatalf("[Agni Seeder] failed to serve: %v", err)
+		}
+	}()
+
+	httpserver := &http.Server{
+		Addr:         ":" + config.Seeder.Viewer,
+		Handler:      router,
+		ReadTimeout:  15 * time.Second,
+		WriteTimeout: 15 * time.Second,
+		IdleTimeout:  60 * time.Second,
+	}
+
+	go func() {
+		log.Printf("Starting server on port %s", config.Seeder.Viewer)
+		if err := httpserver.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("Failed to start server: %v", err)
 		}
 	}()
 
