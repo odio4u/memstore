@@ -14,8 +14,8 @@ RUN go run certs/seedcert.go
 
 # Prepare certs folder
 RUN mkdir -p /app/bin/certs && \
-    cp ./server.pem /app/bin/certs/ && \
-    cp ./server-key.pem /app/bin/certs/
+    cp ./server.pem /app/bin/ && \
+    cp ./server-key.pem /app/bin/
 
 # Build the Go application
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /app/bin/app cmd/main.go
